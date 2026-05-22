@@ -46,7 +46,10 @@ export function explodeRows(meta: CampaignMeta, tactics: ParsedTactic[]): Explod
               audience: cv(meta.audience ?? '', meta.audience ? 'default' : 'unknown'),
               persona: cv(persona, hasPersonas ? 'auto' : 'unknown'),
               genderFull: cv(personaDef?.gender ?? 'All', hasPersonas ? 'auto' : 'default'),
-              genderAcronym: cv(personaDef?.gender_acronym ?? 'A', hasPersonas ? 'auto' : 'default'),
+              genderAcronym: cv(
+                personaDef?.gender_acronym ?? 'A',
+                hasPersonas ? 'auto' : 'default',
+              ),
               ageDemo: cv(personaDef?.age_demo ?? '', personaDef?.age_demo ? 'auto' : 'unknown'),
               placement: cv(
                 tactic.placement || platform.defaultPlacement,
@@ -64,7 +67,10 @@ export function explodeRows(meta: CampaignMeta, tactics: ParsedTactic[]): Explod
               language: cv(lang, 'auto'),
               province: cv(province, 'default'),
               promoId: cv('', 'unknown'),
-              contentPurpose: cv(meta.contentPurpose ?? '', meta.contentPurpose ? 'default' : 'unknown'),
+              contentPurpose: cv(
+                meta.contentPurpose ?? '',
+                meta.contentPurpose ? 'default' : 'unknown',
+              ),
               adFormat: cv(tactic.adFormat, 'inferred'),
               adDimensions: cv(dim, dim ? 'auto' : 'unknown'),
               creativeName: cv('', 'unknown'),
@@ -116,7 +122,8 @@ function getPersonaDef(
     }
   } else {
     const def = product.personas.named[personaName]
-    if (def) return { gender: def.gender, gender_acronym: def.gender_acronym, age_demo: def.age_demo }
+    if (def)
+      return { gender: def.gender, gender_acronym: def.gender_acronym, age_demo: def.age_demo }
   }
   return null
 }

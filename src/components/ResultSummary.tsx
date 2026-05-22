@@ -75,7 +75,8 @@ export default function ResultSummary({
               onClick={() => setShowWarnings(!showWarnings)}
               className="text-sm text-gray-500 underline hover:text-gray-700"
             >
-              {showWarnings ? 'Hide' : 'Show'} {warnings.length} warning{warnings.length !== 1 ? 's' : ''}
+              {showWarnings ? 'Hide' : 'Show'} {warnings.length} warning
+              {warnings.length !== 1 ? 's' : ''}
             </button>
             {showWarnings && (
               <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-600">

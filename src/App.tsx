@@ -1,6 +1,12 @@
 import { useState, useCallback } from 'react'
 import { saveAs } from 'file-saver'
-import { parseBlockingChart, explodeRows, countYellowCells, generateFormulaSheet, PRODUCTS } from './engine'
+import {
+  parseBlockingChart,
+  explodeRows,
+  countYellowCells,
+  generateFormulaSheet,
+  PRODUCTS,
+} from './engine'
 import type { ExplodedRow, CampaignMeta } from './engine/types'
 import FileUploader from './components/FileUploader'
 import ResultSummary from './components/ResultSummary'
@@ -11,7 +17,6 @@ function App() {
   const [state, setState] = useState<AppState>('upload')
   const [isLoading, setIsLoading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
-  const [fileName, setFileName] = useState<string | null>(null)
 
   const [rows, setRows] = useState<ExplodedRow[]>([])
   const [meta, setMeta] = useState<{ product: string; campaignName: string; yearMonth: string }>({
@@ -54,7 +59,6 @@ function App() {
       const exploded = explodeRows(campaignMeta, result.tactics)
       const yellows = countYellowCells(exploded)
 
-      setFileName(file.name)
       setRows(exploded)
       setMeta({
         product: productConfig?.product_acronym ?? 'UNKNOWN',
@@ -85,7 +89,6 @@ function App() {
 
   const handleReset = useCallback(() => {
     setState('upload')
-    setFileName(null)
     setRows([])
     setWarnings([])
     setYellowCount(0)

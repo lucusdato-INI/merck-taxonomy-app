@@ -360,7 +360,8 @@ export function mapKpiToObjective(kpi: string): ObjectiveKey | '' {
 export function detectProduct(text: string): ProductKey | null {
   const upper = text.toUpperCase()
   if (upper.includes('CAPVAXIVE') || upper.includes('PCN')) return 'PCN'
-  if (upper.includes('HCP') && (upper.includes('GARDASIL') || upper.includes('G9'))) return 'GSL_HCP'
+  if (upper.includes('HCP') && (upper.includes('GARDASIL') || upper.includes('G9')))
+    return 'GSL_HCP'
   if (upper.includes('GARDASIL') || upper.includes('G9') || upper.includes('GSL')) return 'GSL'
   return null
 }

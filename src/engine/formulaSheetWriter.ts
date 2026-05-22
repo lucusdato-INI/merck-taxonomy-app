@@ -24,69 +24,233 @@ const BORDER_STYLE: Partial<ExcelJS.Borders> = {
 }
 
 const SOCIAL_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign', 'Start date', 'End Date',
-  'Channel', 'Source', 'Audience', 'Persona', 'Gender', 'Gender Acronym',
-  'Age Demo', 'Placement', 'Tactic Type', 'Geo', 'Language', 'Province',
-  'Ad Set', 'Promomats ID', 'Content Purposes', 'Ad Format', 'Ad Dimensions',
-  'Custom Tag 3', 'Ad', 'Tag?', 'Tag Type', 'Target URL',
-  'utm_source=', 'utm_medium', 'utm_campaign=', 'utm_adset=', 'utm_content=',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Start date',
+  'End Date',
+  'Channel',
+  'Source',
+  'Audience',
+  'Persona',
+  'Gender',
+  'Gender Acronym',
+  'Age Demo',
+  'Placement',
+  'Tactic Type',
+  'Geo',
+  'Language',
+  'Province',
+  'Ad Set',
+  'Promomats ID',
+  'Content Purposes',
+  'Ad Format',
+  'Ad Dimensions',
+  'Custom Tag 3',
+  'Ad',
+  'Tag?',
+  'Tag Type',
+  'Target URL',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'utm_content=',
   'UTM (String Formula)',
 ]
 
 const SOCIAL_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null, 'startDate', 'endDate',
-  'channel', 'source', 'audience', 'persona', 'genderFull', 'genderAcronym',
-  'ageDemo', 'placement', 'tacticType', 'geo', 'language', 'province',
-  null, 'promoId', 'contentPurpose', 'adFormat', 'adDimensions',
-  'customTag3', null, null, null, 'targetUrl',
-  null, 'utmMedium', null, null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'startDate',
+  'endDate',
+  'channel',
+  'source',
+  'audience',
+  'persona',
+  'genderFull',
+  'genderAcronym',
+  'ageDemo',
+  'placement',
+  'tacticType',
+  'geo',
+  'language',
+  'province',
+  null,
+  'promoId',
+  'contentPurpose',
+  'adFormat',
+  'adDimensions',
+  'customTag3',
+  null,
+  null,
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
   null,
 ]
 
 const DIGITAL_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign', 'Start date', 'End Date',
-  'Channel', 'Source', 'Site', 'Audience', 'Persona', 'Gender',
-  'Gender Acronym', 'Age Demo', 'Placement', 'Tactic Type', 'Geo',
-  'Buy Type', 'Language', 'Placement/Ad Name',
-  'Promomats ID', 'Content Purposes', 'Ad Format', 'Ad Dimensions',
-  'Creative Name', 'Geo Targeting', 'Creative', 'Tag?', 'Tag Type',
-  'Landing Page', 'utm_source=', 'utm_medium', 'utm_campaign=',
-  'utm_adset=', 'utm_content=', 'UTM (String Formula)',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Start date',
+  'End Date',
+  'Channel',
+  'Source',
+  'Site',
+  'Audience',
+  'Persona',
+  'Gender',
+  'Gender Acronym',
+  'Age Demo',
+  'Placement',
+  'Tactic Type',
+  'Geo',
+  'Buy Type',
+  'Language',
+  'Placement/Ad Name',
+  'Promomats ID',
+  'Content Purposes',
+  'Ad Format',
+  'Ad Dimensions',
+  'Creative Name',
+  'Geo Targeting',
+  'Creative',
+  'Tag?',
+  'Tag Type',
+  'Landing Page',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'utm_content=',
+  'UTM (String Formula)',
 ]
 
 const DIGITAL_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null, 'startDate', 'endDate',
-  'channel', 'source', 'site', 'audience', 'persona', 'genderFull',
-  'genderAcronym', 'ageDemo', 'placement', 'tacticType', 'geo',
-  'buyType', 'language', null,
-  'promoId', 'contentPurpose', 'adFormat', 'adDimensions',
-  'creativeName', 'geoTargeting', null, null, null,
-  'targetUrl', null, 'utmMedium', null,
-  null, null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'startDate',
+  'endDate',
+  'channel',
+  'source',
+  'site',
+  'audience',
+  'persona',
+  'genderFull',
+  'genderAcronym',
+  'ageDemo',
+  'placement',
+  'tacticType',
+  'geo',
+  'buyType',
+  'language',
+  null,
+  'promoId',
+  'contentPurpose',
+  'adFormat',
+  'adDimensions',
+  'creativeName',
+  'geoTargeting',
+  null,
+  null,
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
+  null,
 ]
 
 const SEARCH_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign',
-  'Channel', 'Source', 'Audience', 'Persona', 'Gender Acronym',
-  'Age Demo', 'Promomats ID', 'Content Purposes', 'Match Type',
-  'Ad Format', 'Ad Dimensions', 'Language', 'Custom Tag 2', 'Ad Set',
-  'Landing Page (https://)', 'utm_source=', 'utm_medium', 'utm_campaign=',
-  'utm_adset=', 'UTM (String Formula)',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Channel',
+  'Source',
+  'Audience',
+  'Persona',
+  'Gender Acronym',
+  'Age Demo',
+  'Promomats ID',
+  'Content Purposes',
+  'Match Type',
+  'Ad Format',
+  'Ad Dimensions',
+  'Language',
+  'Custom Tag 2',
+  'Ad Set',
+  'Landing Page (https://)',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'UTM (String Formula)',
 ]
 
 const SEARCH_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null,
-  'channel', 'source', 'audience', 'persona', 'genderAcronym',
-  'ageDemo', 'promoId', 'contentPurpose', 'matchType',
-  'adFormat', 'adDimensions', 'language', 'customTag2', null,
-  'targetUrl', null, 'utmMedium', null,
-  null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'channel',
+  'source',
+  'audience',
+  'persona',
+  'genderAcronym',
+  'ageDemo',
+  'promoId',
+  'contentPurpose',
+  'matchType',
+  'adFormat',
+  'adDimensions',
+  'language',
+  'customTag2',
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
 ]
 
 interface SheetMeta {
@@ -98,7 +262,7 @@ interface SheetMeta {
 export async function generateFormulaSheet(
   rows: ExplodedRow[],
   meta: SheetMeta,
-): Promise<Buffer> {
+): Promise<ExcelJS.Buffer> {
   const workbook = new ExcelJS.Workbook()
 
   const socialRows = rows.filter((r) => r.channel === 'SOC')
@@ -121,7 +285,7 @@ export async function generateFormulaSheet(
   }
 
   const buffer = await workbook.xlsx.writeBuffer()
-  return buffer as Buffer
+  return buffer
 }
 
 function writeSocialTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetMeta): void {
@@ -151,21 +315,33 @@ function writeSocialTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetMe
 
     const rn = rowNum
     // H: Campaign = A&"_"&B&"_"&C&"_"&D&"_"&E&"_"&F&"_"&G
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // W: Ad Set = K&"_"&L&"_"&M&"_"&N&"_"&P&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"+"&V
-    dataRow.getCell(23).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}` }
+    dataRow.getCell(23).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}`,
+    }
     // AC: Ad = X&"_"&Y&"_"&Z&"_"&AA&"_"&N&"+"&Q&"+"&O&"+"&U&"+"&V&"+"&AB
-    dataRow.getCell(29).value = { formula: `X${rn}&"_"&Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&N${rn}&"+"&Q${rn}&"+"&O${rn}&"+"&U${rn}&"+"&V${rn}&"+"&AB${rn}` }
+    dataRow.getCell(29).value = {
+      formula: `X${rn}&"_"&Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&N${rn}&"+"&Q${rn}&"+"&O${rn}&"+"&U${rn}&"+"&V${rn}&"+"&AB${rn}`,
+    }
     // AG: utm_source = L
     dataRow.getCell(33).value = { formula: `L${rn}` }
     // AI: utm_campaign = same as Campaign
-    dataRow.getCell(35).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(35).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // AJ: utm_adset = M&"_"&N&"_"&P&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"+"&V
-    dataRow.getCell(36).value = { formula: `M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}` }
+    dataRow.getCell(36).value = {
+      formula: `M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}`,
+    }
     // AK: utm_content = AC
     dataRow.getCell(37).value = { formula: `AC${rn}` }
     // AL: UTM full string
-    dataRow.getCell(38).value = { formula: `AF${rn}&"?"&$AG$1&"="&AG${rn}&"&"&$AH$1&"="&AH${rn}&"&"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}` }
+    dataRow.getCell(38).value = {
+      formula: `AF${rn}&"?"&$AG$1&"="&AG${rn}&"&"&$AH$1&"="&AH${rn}&"&"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -201,21 +377,33 @@ function writeDigitalTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetM
 
     const rn = rowNum
     // H: Campaign
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // X: Placement/Ad Name = K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"_"&V&"_"&W
-    dataRow.getCell(24).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}` }
+    dataRow.getCell(24).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}`,
+    }
     // AE: Creative = Y&"_"&Z&"_"&AA&"_"&AB&"_"&AC&"+"&O&"+"&R&"+"&P&"+"&AD&"+"&W&"+"&M
-    dataRow.getCell(31).value = { formula: `Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&AB${rn}&"_"&AC${rn}&"+"&O${rn}&"+"&R${rn}&"+"&P${rn}&"+"&AD${rn}&"+"&W${rn}&"+"&M${rn}` }
+    dataRow.getCell(31).value = {
+      formula: `Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&AB${rn}&"_"&AC${rn}&"+"&O${rn}&"+"&R${rn}&"+"&P${rn}&"+"&AD${rn}&"+"&W${rn}&"+"&M${rn}`,
+    }
     // AI: utm_source = L&"_"&M
     dataRow.getCell(35).value = { formula: `L${rn}&"_"&M${rn}` }
     // AK: utm_campaign
-    dataRow.getCell(37).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(37).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // AL: utm_adset = N&"_"&O&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"_"&V&"_"&W
-    dataRow.getCell(38).value = { formula: `N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}` }
+    dataRow.getCell(38).value = {
+      formula: `N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}`,
+    }
     // AM: utm_content = AE
     dataRow.getCell(39).value = { formula: `AE${rn}` }
     // AN: UTM full string
-    dataRow.getCell(40).value = { formula: `AH${rn}&"?"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}&"&"&$AL$1&"="&AL${rn}&"&"&$AM$1&"="&AM${rn}` }
+    dataRow.getCell(40).value = {
+      formula: `AH${rn}&"?"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}&"&"&$AL$1&"="&AL${rn}&"&"&$AM$1&"="&AM${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -251,17 +439,27 @@ function writeSearchTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetMe
 
     const rn = rowNum
     // H: Campaign = A&"_"&B&"_"&C&"_"&D&"_"&E&"_"&F&"_"&G&"+"&T (appends +Language)
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}`,
+    }
     // V: Ad Set = I&"_"&J&"_"&K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&P&"_"&Q&"_"&R&"_"&S&"+"&T&"+"&U
-    dataRow.getCell(22).value = { formula: `I${rn}&"_"&J${rn}&"_"&K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}` }
+    dataRow.getCell(22).value = {
+      formula: `I${rn}&"_"&J${rn}&"_"&K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}`,
+    }
     // X: utm_source = J
     dataRow.getCell(24).value = { formula: `J${rn}` }
     // Z: utm_campaign = same as Campaign
-    dataRow.getCell(26).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}` }
+    dataRow.getCell(26).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}`,
+    }
     // AA: utm_adset = K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&P&"_"&Q&"_"&R&"_"&S&"+"&T&"+"&U
-    dataRow.getCell(27).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}` }
+    dataRow.getCell(27).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}`,
+    }
     // AB: UTM full string
-    dataRow.getCell(28).value = { formula: `W${rn}&"?"&$X$1&"="&X${rn}&"&"&$Y$1&"="&Y${rn}&"&"&$Z$1&"="&Z${rn}&"&"&$AA$1&"="&AA${rn}` }
+    dataRow.getCell(28).value = {
+      formula: `W${rn}&"?"&$X$1&"="&X${rn}&"&"&$Y$1&"="&Y${rn}&"&"&$Z$1&"="&Z${rn}&"&"&$AA$1&"="&AA${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -278,8 +476,14 @@ function writeDropdownTab(
   const sheet = wb.addWorksheet(tabName)
 
   const fieldNames = [
-    'market', 'product', 'campaignType', 'objective', 'audience',
-    'gender', 'contentPurpose', 'adFormat',
+    'market',
+    'product',
+    'campaignType',
+    'objective',
+    'audience',
+    'gender',
+    'contentPurpose',
+    'adFormat',
   ]
   const mediumFields = ['source', 'placement', 'tacticType', 'geo']
   if (medium === 'Display') mediumFields.push('buyType')

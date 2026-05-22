@@ -40,8 +40,16 @@ interface TargetingParseResult {
 }
 
 const KNOWN_PERSONAS = [
-  'Sofia-Maya', 'Chris-Adam', 'Jamal', 'Lila', 'Adam', 'Maya', 'Chris',
-  'Harriet-Alma', 'Henri-Archie', 'AllAdults',
+  'Sofia-Maya',
+  'Chris-Adam',
+  'Jamal',
+  'Lila',
+  'Adam',
+  'Maya',
+  'Chris',
+  'Harriet-Alma',
+  'Henri-Archie',
+  'AllAdults',
 ]
 
 export function parseTargetingText(text: string, productKey: string): TargetingParseResult {
@@ -126,7 +134,10 @@ function extractMetadata(workbook: ExcelJS.Workbook): Partial<CampaignMeta> {
         if (next) meta.campaignName = cleanCampaignName(next)
       }
 
-      if (!meta.campaignName && (upper.includes('MERCK') || upper.includes('GARDASIL') || upper.includes('CAPVAXIVE'))) {
+      if (
+        !meta.campaignName &&
+        (upper.includes('MERCK') || upper.includes('GARDASIL') || upper.includes('CAPVAXIVE'))
+      ) {
         meta.campaignName = cleanCampaignName(val)
       }
 
@@ -213,7 +224,13 @@ function parseSingleTab(workbook: ExcelJS.Workbook, warnings: string[]): ParsedT
       region,
       dimensions: dims,
       adFormat: dims[0] ? inferAdFormat(dims[0]) : 'IMG',
-      buyType: match?.mapping.defaultBuyType || (kpiRaw.toUpperCase() === 'CPM' ? 'CPM' : kpiRaw.toUpperCase() === 'CPC' ? 'CPC' : match?.mapping.defaultBuyType ?? ''),
+      buyType:
+        match?.mapping.defaultBuyType ||
+        (kpiRaw.toUpperCase() === 'CPM'
+          ? 'CPM'
+          : kpiRaw.toUpperCase() === 'CPC'
+            ? 'CPC'
+            : (match?.mapping.defaultBuyType ?? '')),
       placement: match?.mapping.defaultPlacement ?? 'CSTM',
       tacticType: match?.mapping.defaultTacticType ?? 'CSTM',
       included,

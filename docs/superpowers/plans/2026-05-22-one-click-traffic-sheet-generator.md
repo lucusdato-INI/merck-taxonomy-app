@@ -13,6 +13,7 @@
 ### Task 1: Add New Types
 
 **Files:**
+
 - Modify: `src/engine/types.ts`
 - Test: `src/engine/__tests__/types.test.ts`
 
@@ -65,6 +66,7 @@ git commit -m "feat: add CellValue, ExplodedRow, GenerationResult types"
 ### Task 2: Create CTT Mappings Module
 
 **Files:**
+
 - Create: `src/engine/cttMappings.ts`
 - Create: `src/engine/__tests__/cttMappings.test.ts`
 
@@ -371,11 +373,13 @@ git commit -m "feat: add CTT dictionary mapping layer with bidirectional lookups
 ### Task 3: Slim Down config.ts
 
 **Files:**
+
 - Modify: `src/engine/config.ts`
 
 - [ ] **Step 1: Remove dropdown vocabulary exports**
 
 Remove these exports from `src/engine/config.ts` (lines 313-398):
+
 - `CAMPAIGN_TYPE_MAP`
 - `OBJECTIVE_MAP`
 - `CONTENT_PURPOSE_MAP`
@@ -400,7 +404,8 @@ Add a product detection function:
 export function detectProduct(text: string): ProductKey | null {
   const upper = text.toUpperCase()
   if (upper.includes('CAPVAXIVE') || upper.includes('PCN')) return 'PCN'
-  if (upper.includes('HCP') && (upper.includes('GARDASIL') || upper.includes('G9'))) return 'GSL_HCP'
+  if (upper.includes('HCP') && (upper.includes('GARDASIL') || upper.includes('G9')))
+    return 'GSL_HCP'
   if (upper.includes('GARDASIL') || upper.includes('G9') || upper.includes('GSL')) return 'GSL'
   return null
 }
@@ -433,6 +438,7 @@ git commit -m "refactor: slim config.ts to product configs + platform mappings, 
 ### Task 4: Enhanced BC Parser
 
 **Files:**
+
 - Modify: `src/engine/bcParser.ts`
 - Create: `src/engine/__tests__/bcParser.test.ts`
 
@@ -519,8 +525,16 @@ interface TargetingParseResult {
 }
 
 const KNOWN_PERSONAS = [
-  'Sofia-Maya', 'Chris-Adam', 'Jamal', 'Lila', 'Adam', 'Maya', 'Chris',
-  'Harriet-Alma', 'Henri-Archie', 'AllAdults',
+  'Sofia-Maya',
+  'Chris-Adam',
+  'Jamal',
+  'Lila',
+  'Adam',
+  'Maya',
+  'Chris',
+  'Harriet-Alma',
+  'Henri-Archie',
+  'AllAdults',
 ]
 
 export function parseTargetingText(text: string, productKey: string): TargetingParseResult {
@@ -584,7 +598,10 @@ function extractMetadata(workbook: ExcelJS.Workbook): Partial<CampaignMeta> {
         if (next) meta.campaignName = cleanCampaignName(next)
       }
 
-      if (!meta.campaignName && (upper.includes('MERCK') || upper.includes('GARDASIL') || upper.includes('CAPVAXIVE'))) {
+      if (
+        !meta.campaignName &&
+        (upper.includes('MERCK') || upper.includes('GARDASIL') || upper.includes('CAPVAXIVE'))
+      ) {
         meta.campaignName = cleanCampaignName(val)
       }
 
@@ -635,6 +652,7 @@ git commit -m "feat: enhance BC parser with targeting text parsing and product d
 ### Task 5: Row Exploder with Confidence Tagging
 
 **Files:**
+
 - Create: `src/engine/rowExploder.ts`
 - Create: `src/engine/__tests__/rowExploder.test.ts`
 
@@ -798,16 +816,31 @@ export function explodeRows(meta: CampaignMeta, tactics: ParsedTactic[]): Explod
               audience: cv(meta.audience ?? '', meta.audience ? 'default' : 'unknown'),
               persona: cv(persona, hasPersonas ? 'auto' : 'unknown'),
               genderFull: cv(personaDef?.gender ?? 'All', hasPersonas ? 'auto' : 'default'),
-              genderAcronym: cv(personaDef?.gender_acronym ?? 'A', hasPersonas ? 'auto' : 'default'),
+              genderAcronym: cv(
+                personaDef?.gender_acronym ?? 'A',
+                hasPersonas ? 'auto' : 'default',
+              ),
               ageDemo: cv(personaDef?.age_demo ?? '', personaDef?.age_demo ? 'auto' : 'unknown'),
-              placement: cv(tactic.placement || platform.defaultPlacement, tactic.placement ? 'auto' : 'inferred'),
-              tacticType: cv(tactic.tacticType || platform.defaultTacticType, tactic.tacticType ? 'auto' : 'inferred'),
+              placement: cv(
+                tactic.placement || platform.defaultPlacement,
+                tactic.placement ? 'auto' : 'inferred',
+              ),
+              tacticType: cv(
+                tactic.tacticType || platform.defaultTacticType,
+                tactic.tacticType ? 'auto' : 'inferred',
+              ),
               geo: cv(geo, 'default'),
-              buyType: cv((tactic.buyType || platform.defaultBuyType) as string, tactic.buyType ? 'inferred' : platform.defaultBuyType ? 'inferred' : 'unknown'),
+              buyType: cv(
+                (tactic.buyType || platform.defaultBuyType) as string,
+                tactic.buyType ? 'inferred' : platform.defaultBuyType ? 'inferred' : 'unknown',
+              ),
               language: cv(lang, 'auto'),
               province: cv(province, 'default'),
               promoId: cv('', 'unknown'),
-              contentPurpose: cv(meta.contentPurpose ?? '', meta.contentPurpose ? 'default' : 'unknown'),
+              contentPurpose: cv(
+                meta.contentPurpose ?? '',
+                meta.contentPurpose ? 'default' : 'unknown',
+              ),
               adFormat: cv(tactic.adFormat, 'inferred'),
               adDimensions: cv(dim, dim ? 'auto' : 'unknown'),
               creativeName: cv('', 'unknown'),
@@ -841,7 +874,7 @@ export function explodeRows(meta: CampaignMeta, tactics: ParsedTactic[]): Explod
 function getProvinces(
   productKey: string | undefined,
   lang: string,
-  product: ReturnType<typeof PRODUCTS[keyof typeof PRODUCTS]> | null,
+  product: ReturnType<(typeof PRODUCTS)[keyof typeof PRODUCTS]> | null,
 ): string[] {
   if (!product) return ['NA']
   if (product.personas.type === 'paired') return ['NA']
@@ -849,7 +882,7 @@ function getProvinces(
 }
 
 function getPersonaDef(
-  product: ReturnType<typeof PRODUCTS[keyof typeof PRODUCTS]> | null,
+  product: ReturnType<(typeof PRODUCTS)[keyof typeof PRODUCTS]> | null,
   personaName: string,
 ): { gender: string; gender_acronym: string; age_demo: string } | null {
   if (!product || !personaName) return null
@@ -862,7 +895,8 @@ function getPersonaDef(
     }
   } else {
     const def = product.personas.named[personaName]
-    if (def) return { gender: def.gender, gender_acronym: def.gender_acronym, age_demo: def.age_demo }
+    if (def)
+      return { gender: def.gender, gender_acronym: def.gender_acronym, age_demo: def.age_demo }
   }
   return null
 }
@@ -895,6 +929,7 @@ git commit -m "feat: add row exploder with confidence tagging per cell"
 ### Task 6: Formula Sheet Writer — Core + Social Tab
 
 **Files:**
+
 - Create: `src/engine/formulaSheetWriter.ts`
 - Create: `src/engine/__tests__/formulaSheetWriter.test.ts`
 
@@ -1056,69 +1091,233 @@ const BORDER_STYLE: Partial<ExcelJS.Borders> = {
 
 // Social column layout: field keys in order A-AL
 const SOCIAL_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign', 'Start date', 'End Date',
-  'Channel', 'Source', 'Audience', 'Persona', 'Gender', 'Gender Acronym',
-  'Age Demo', 'Placement', 'Tactic Type', 'Geo', 'Language', 'Province',
-  'Ad Set', 'Promomats ID', 'Content Purposes', 'Ad Format', 'Ad Dimensions',
-  'Custom Tag 3', 'Ad', 'Tag?', 'Tag Type', 'Target URL',
-  'utm_source=', 'utm_medium', 'utm_campaign=', 'utm_adset=', 'utm_content=',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Start date',
+  'End Date',
+  'Channel',
+  'Source',
+  'Audience',
+  'Persona',
+  'Gender',
+  'Gender Acronym',
+  'Age Demo',
+  'Placement',
+  'Tactic Type',
+  'Geo',
+  'Language',
+  'Province',
+  'Ad Set',
+  'Promomats ID',
+  'Content Purposes',
+  'Ad Format',
+  'Ad Dimensions',
+  'Custom Tag 3',
+  'Ad',
+  'Tag?',
+  'Tag Type',
+  'Target URL',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'utm_content=',
   'UTM (String Formula)',
 ]
 
 const SOCIAL_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null, 'startDate', 'endDate',
-  'channel', 'source', 'audience', 'persona', 'genderFull', 'genderAcronym',
-  'ageDemo', 'placement', 'tacticType', 'geo', 'language', 'province',
-  null, 'promoId', 'contentPurpose', 'adFormat', 'adDimensions',
-  'customTag3', null, null, null, 'targetUrl',
-  null, 'utmMedium', null, null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'startDate',
+  'endDate',
+  'channel',
+  'source',
+  'audience',
+  'persona',
+  'genderFull',
+  'genderAcronym',
+  'ageDemo',
+  'placement',
+  'tacticType',
+  'geo',
+  'language',
+  'province',
+  null,
+  'promoId',
+  'contentPurpose',
+  'adFormat',
+  'adDimensions',
+  'customTag3',
+  null,
+  null,
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
   null,
 ]
 
 const DIGITAL_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign', 'Start date', 'End Date',
-  'Channel', 'Source', 'Site', 'Audience', 'Persona', 'Gender',
-  'Gender Acronym', 'Age Demo', 'Placement', 'Tactic Type', 'Geo',
-  'Buy Type', 'Language', 'Placement/Ad Name',
-  'Promomats ID', 'Content Purposes', 'Ad Format', 'Ad Dimensions',
-  'Creative Name', 'Geo Targeting', 'Creative', 'Tag?', 'Tag Type',
-  'Landing Page', 'utm_source=', 'utm_medium', 'utm_campaign=',
-  'utm_adset=', 'utm_content=', 'UTM (String Formula)',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Start date',
+  'End Date',
+  'Channel',
+  'Source',
+  'Site',
+  'Audience',
+  'Persona',
+  'Gender',
+  'Gender Acronym',
+  'Age Demo',
+  'Placement',
+  'Tactic Type',
+  'Geo',
+  'Buy Type',
+  'Language',
+  'Placement/Ad Name',
+  'Promomats ID',
+  'Content Purposes',
+  'Ad Format',
+  'Ad Dimensions',
+  'Creative Name',
+  'Geo Targeting',
+  'Creative',
+  'Tag?',
+  'Tag Type',
+  'Landing Page',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'utm_content=',
+  'UTM (String Formula)',
 ]
 
 const DIGITAL_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null, 'startDate', 'endDate',
-  'channel', 'source', 'site', 'audience', 'persona', 'genderFull',
-  'genderAcronym', 'ageDemo', 'placement', 'tacticType', 'geo',
-  'buyType', 'language', null,
-  'promoId', 'contentPurpose', 'adFormat', 'adDimensions',
-  'creativeName', 'geoTargeting', null, null, null,
-  'targetUrl', null, 'utmMedium', null,
-  null, null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'startDate',
+  'endDate',
+  'channel',
+  'source',
+  'site',
+  'audience',
+  'persona',
+  'genderFull',
+  'genderAcronym',
+  'ageDemo',
+  'placement',
+  'tacticType',
+  'geo',
+  'buyType',
+  'language',
+  null,
+  'promoId',
+  'contentPurpose',
+  'adFormat',
+  'adDimensions',
+  'creativeName',
+  'geoTargeting',
+  null,
+  null,
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
+  null,
 ]
 
 const SEARCH_HEADERS = [
-  'Market', 'Product', 'Campaign Name', 'Campaign Type', 'Objective',
-  'Year & Month', 'Custom Tag 1', 'Campaign',
-  'Channel', 'Source', 'Audience', 'Persona', 'Gender Acronym',
-  'Age Demo', 'Promomats ID', 'Content Purposes', 'Match Type',
-  'Ad Format', 'Ad Dimensions', 'Language', 'Custom Tag 2', 'Ad Set',
-  'Landing Page (https://)', 'utm_source=', 'utm_medium', 'utm_campaign=',
-  'utm_adset=', 'UTM (String Formula)',
+  'Market',
+  'Product',
+  'Campaign Name',
+  'Campaign Type',
+  'Objective',
+  'Year & Month',
+  'Custom Tag 1',
+  'Campaign',
+  'Channel',
+  'Source',
+  'Audience',
+  'Persona',
+  'Gender Acronym',
+  'Age Demo',
+  'Promomats ID',
+  'Content Purposes',
+  'Match Type',
+  'Ad Format',
+  'Ad Dimensions',
+  'Language',
+  'Custom Tag 2',
+  'Ad Set',
+  'Landing Page (https://)',
+  'utm_source=',
+  'utm_medium',
+  'utm_campaign=',
+  'utm_adset=',
+  'UTM (String Formula)',
 ]
 
 const SEARCH_FIELD_KEYS = [
-  'market', 'product', 'campaignName', 'campaignType', 'objective',
-  'yearMonth', 'customTag1', null,
-  'channel', 'source', 'audience', 'persona', 'genderAcronym',
-  'ageDemo', 'promoId', 'contentPurpose', 'matchType',
-  'adFormat', 'adDimensions', 'language', 'customTag2', null,
-  'targetUrl', null, 'utmMedium', null,
-  null, null,
+  'market',
+  'product',
+  'campaignName',
+  'campaignType',
+  'objective',
+  'yearMonth',
+  'customTag1',
+  null,
+  'channel',
+  'source',
+  'audience',
+  'persona',
+  'genderAcronym',
+  'ageDemo',
+  'promoId',
+  'contentPurpose',
+  'matchType',
+  'adFormat',
+  'adDimensions',
+  'language',
+  'customTag2',
+  null,
+  'targetUrl',
+  null,
+  'utmMedium',
+  null,
+  null,
+  null,
 ]
 
 interface SheetMeta {
@@ -1127,10 +1326,7 @@ interface SheetMeta {
   yearMonth: string
 }
 
-export async function generateFormulaSheet(
-  rows: ExplodedRow[],
-  meta: SheetMeta,
-): Promise<Buffer> {
+export async function generateFormulaSheet(rows: ExplodedRow[], meta: SheetMeta): Promise<Buffer> {
   const workbook = new ExcelJS.Workbook()
 
   const socialRows = rows.filter((r) => r.channel === 'SOC')
@@ -1183,21 +1379,33 @@ function writeSocialTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetMe
 
     const rn = rowNum
     // H: Campaign = A&"_"&B&"_"&C&"_"&D&"_"&E&"_"&F&"_"&G
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // W: Ad Set = K&"_"&L&"_"&M&"_"&N&"_"&P&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"+"&V
-    dataRow.getCell(23).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}` }
+    dataRow.getCell(23).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}`,
+    }
     // AC: Ad = X&"_"&Y&"_"&Z&"_"&AA&"_"&N&"+"&Q&"+"&O&"+"&U&"+"&V&"+"&AB
-    dataRow.getCell(29).value = { formula: `X${rn}&"_"&Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&N${rn}&"+"&Q${rn}&"+"&O${rn}&"+"&U${rn}&"+"&V${rn}&"+"&AB${rn}` }
+    dataRow.getCell(29).value = {
+      formula: `X${rn}&"_"&Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&N${rn}&"+"&Q${rn}&"+"&O${rn}&"+"&U${rn}&"+"&V${rn}&"+"&AB${rn}`,
+    }
     // AG: utm_source = L
     dataRow.getCell(33).value = { formula: `L${rn}` }
     // AI: utm_campaign = same as Campaign
-    dataRow.getCell(35).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(35).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // AJ: utm_adset = M&"_"&N&"_"&P&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"+"&V
-    dataRow.getCell(36).value = { formula: `M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}` }
+    dataRow.getCell(36).value = {
+      formula: `M${rn}&"_"&N${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"+"&V${rn}`,
+    }
     // AK: utm_content = AC
     dataRow.getCell(37).value = { formula: `AC${rn}` }
     // AL: UTM full string
-    dataRow.getCell(38).value = { formula: `AF${rn}&"?"&$AG$1&"="&AG${rn}&"&"&$AH$1&"="&AH${rn}&"&"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}` }
+    dataRow.getCell(38).value = {
+      formula: `AF${rn}&"?"&$AG$1&"="&AG${rn}&"&"&$AH$1&"="&AH${rn}&"&"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -1233,21 +1441,33 @@ function writeDigitalTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetM
 
     const rn = rowNum
     // H: Campaign
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // X: Placement/Ad Name = K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"_"&V&"_"&W
-    dataRow.getCell(24).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}` }
+    dataRow.getCell(24).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}`,
+    }
     // AE: Creative = Y&"_"&Z&"_"&AA&"_"&AB&"_"&AC&"+"&O&"+"&R&"+"&P&"+"&AD&"+"&W&"+"&M
-    dataRow.getCell(31).value = { formula: `Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&AB${rn}&"_"&AC${rn}&"+"&O${rn}&"+"&R${rn}&"+"&P${rn}&"+"&AD${rn}&"+"&W${rn}&"+"&M${rn}` }
+    dataRow.getCell(31).value = {
+      formula: `Y${rn}&"_"&Z${rn}&"_"&AA${rn}&"_"&AB${rn}&"_"&AC${rn}&"+"&O${rn}&"+"&R${rn}&"+"&P${rn}&"+"&AD${rn}&"+"&W${rn}&"+"&M${rn}`,
+    }
     // AI: utm_source = L&"_"&M
     dataRow.getCell(35).value = { formula: `L${rn}&"_"&M${rn}` }
     // AK: utm_campaign
-    dataRow.getCell(37).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}` }
+    dataRow.getCell(37).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}`,
+    }
     // AL: utm_adset = N&"_"&O&"_"&Q&"_"&R&"_"&S&"_"&T&"_"&U&"_"&V&"_"&W
-    dataRow.getCell(38).value = { formula: `N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}` }
+    dataRow.getCell(38).value = {
+      formula: `N${rn}&"_"&O${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"_"&T${rn}&"_"&U${rn}&"_"&V${rn}&"_"&W${rn}`,
+    }
     // AM: utm_content = AE
     dataRow.getCell(39).value = { formula: `AE${rn}` }
     // AN: UTM full string
-    dataRow.getCell(40).value = { formula: `AH${rn}&"?"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}&"&"&$AL$1&"="&AL${rn}&"&"&$AM$1&"="&AM${rn}` }
+    dataRow.getCell(40).value = {
+      formula: `AH${rn}&"?"&$AI$1&"="&AI${rn}&"&"&$AJ$1&"="&AJ${rn}&"&"&$AK$1&"="&AK${rn}&"&"&$AL$1&"="&AL${rn}&"&"&$AM$1&"="&AM${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -1283,17 +1503,27 @@ function writeSearchTab(wb: ExcelJS.Workbook, rows: ExplodedRow[], meta: SheetMe
 
     const rn = rowNum
     // H: Campaign = A&"_"&B&"_"&C&"_"&D&"_"&E&"_"&F&"_"&G&"+"&T (appends +Language)
-    dataRow.getCell(8).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}` }
+    dataRow.getCell(8).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}`,
+    }
     // V: Ad Set = I&"_"&J&"_"&K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&P&"_"&Q&"_"&R&"_"&S&"+"&T&"+"&U
-    dataRow.getCell(22).value = { formula: `I${rn}&"_"&J${rn}&"_"&K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}` }
+    dataRow.getCell(22).value = {
+      formula: `I${rn}&"_"&J${rn}&"_"&K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}`,
+    }
     // X: utm_source = J
     dataRow.getCell(24).value = { formula: `J${rn}` }
     // Z: utm_campaign = same as Campaign
-    dataRow.getCell(26).value = { formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}` }
+    dataRow.getCell(26).value = {
+      formula: `A${rn}&"_"&B${rn}&"_"&C${rn}&"_"&D${rn}&"_"&E${rn}&"_"&F${rn}&"_"&G${rn}&"+"&T${rn}`,
+    }
     // AA: utm_adset = K&"_"&L&"_"&M&"_"&N&"_"&O&"_"&P&"_"&Q&"_"&R&"_"&S&"+"&T&"+"&U
-    dataRow.getCell(27).value = { formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}` }
+    dataRow.getCell(27).value = {
+      formula: `K${rn}&"_"&L${rn}&"_"&M${rn}&"_"&N${rn}&"_"&O${rn}&"_"&P${rn}&"_"&Q${rn}&"_"&R${rn}&"_"&S${rn}&"+"&T${rn}&"+"&U${rn}`,
+    }
     // AB: UTM full string
-    dataRow.getCell(28).value = { formula: `W${rn}&"?"&$X$1&"="&X${rn}&"&"&$Y$1&"="&Y${rn}&"&"&$Z$1&"="&Z${rn}&"&"&$AA$1&"="&AA${rn}` }
+    dataRow.getCell(28).value = {
+      formula: `W${rn}&"?"&$X$1&"="&X${rn}&"&"&$Y$1&"="&Y${rn}&"&"&$Z$1&"="&Z${rn}&"&"&$AA$1&"="&AA${rn}`,
+    }
 
     dataRow.commit()
   }
@@ -1310,8 +1540,14 @@ function writeDropdownTab(
   const sheet = wb.addWorksheet(tabName)
 
   const fieldNames = [
-    'market', 'product', 'campaignType', 'objective', 'audience',
-    'gender', 'contentPurpose', 'adFormat',
+    'market',
+    'product',
+    'campaignType',
+    'objective',
+    'audience',
+    'gender',
+    'contentPurpose',
+    'adFormat',
   ]
   const mediumFields = ['source', 'placement', 'tacticType', 'geo']
   if (medium === 'Display') mediumFields.push('buyType')
@@ -1373,6 +1609,7 @@ git commit -m "feat: add formula-based Excel writer for Social, Digital, and Sea
 ### Task 7: Update Engine Exports
 
 **Files:**
+
 - Modify: `src/engine/index.ts`
 
 - [ ] **Step 1: Rewrite index.ts with new exports**
@@ -1430,6 +1667,7 @@ git commit -m "refactor: update engine exports for one-click converter"
 ### Task 8: ResultSummary Component
 
 **Files:**
+
 - Create: `src/components/ResultSummary.tsx`
 
 - [ ] **Step 1: Create the component**
@@ -1563,6 +1801,7 @@ git commit -m "feat: add ResultSummary component for one-click converter output"
 ### Task 9: Simplify App.tsx
 
 **Files:**
+
 - Modify: `src/App.tsx`
 
 - [ ] **Step 1: Rewrite App.tsx as single-page converter**
@@ -1745,6 +1984,7 @@ git commit -m "feat: simplify App.tsx to single-page one-click converter"
 ### Task 10: Remove Old Components and Files
 
 **Files:**
+
 - Remove: `src/components/CampaignForm.tsx`
 - Remove: `src/components/TacticReview.tsx`
 - Remove: `src/components/TaxonomyPreview.tsx`
@@ -1798,6 +2038,7 @@ git commit -m "refactor: remove old multi-step components and engine files"
 ### Task 11: End-to-End Verification
 
 **Files:**
+
 - No new files — manual verification
 
 - [ ] **Step 1: Start dev server**
@@ -1808,6 +2049,7 @@ Expected: App starts successfully at localhost.
 - [ ] **Step 2: Test in browser**
 
 Open the app in a browser. Verify:
+
 1. Title says "CTT Traffic Sheet Generator"
 2. Upload zone is visible with instructions
 3. Upload a test blocking chart (Capvaxive or Gardasil)
@@ -1819,6 +2061,7 @@ Open the app in a browser. Verify:
 - [ ] **Step 3: Verify the downloaded Excel file**
 
 Open the downloaded .xlsx in Excel/Google Sheets. Verify:
+
 1. Tab names are dynamic (e.g., "PCN YOTM2026 Social Taxonomy")
 2. Formula columns (Campaign, Ad Set, Ad, UTM) contain formulas, not plain text
 3. Yellow-highlighted cells exist for unknown fields (Promomats ID, Creative Name, etc.)
