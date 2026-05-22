@@ -1,15 +1,4 @@
-import type {
-  ProductKey,
-  ProductConfig,
-  PlatformMapping,
-  CampaignTypeKey,
-  CampaignTypeAcronym,
-  ObjectiveKey,
-  ObjectiveAcronym,
-  ContentPurposeAcronym,
-  AdFormat,
-  MatchType,
-} from './types'
+import type { ProductKey, ProductConfig, PlatformMapping, ObjectiveKey, AdFormat } from './types'
 
 // ── Product Configurations ────────────────────────────────────────────────────
 
@@ -310,95 +299,6 @@ export const SKIPPED_PLATFORMS = [
   'COMMUNIMED',
 ]
 
-// ── Dropdown Vocabularies ─────────────────────────────────────────────────────
-
-export const CAMPAIGN_TYPE_MAP: Record<CampaignTypeKey, CampaignTypeAcronym> = {
-  Branded: 'BRND',
-  UnBranded: 'NON',
-  'Co-Branded': 'CBRDN',
-}
-
-export const OBJECTIVE_MAP: Record<ObjectiveKey, ObjectiveAcronym> = {
-  Awareness: 'AW',
-  Consideration: 'CONSD',
-  Traffic: 'TF',
-  Conversion: 'CV',
-}
-
-export const CONTENT_PURPOSE_MAP: Record<string, ContentPurposeAcronym> = {
-  'Product Awareness': 'PRDAW',
-  'Disease Awareness': 'DA',
-  Corporate: 'COR',
-}
-
-export const AD_FORMAT_MAP: Record<string, AdFormat> = {
-  Image: 'IMG',
-  Video: 'VID',
-  Audio: 'AUDIO',
-  Text: 'TXT',
-  Custom: 'CSTM',
-  Canvas: 'CAN',
-  Native: 'NAT',
-}
-
-export const MATCH_TYPE_MAP: Record<string, MatchType> = {
-  Broad: 'BROD',
-  'Broad, Phase, Exact': 'BPE',
-  'Broad Match Modified': 'BMM',
-  Phrase: 'PHRS',
-  Exact: 'EXCT',
-}
-
-export const GENDER_MAP: Record<string, { full: string; acronym: string }> = {
-  Female: { full: 'Female', acronym: 'F' },
-  Male: { full: 'Male', acronym: 'M' },
-  All: { full: 'All', acronym: 'A' },
-  'Non-Applicable': { full: 'Non-Applicable', acronym: 'NA' },
-}
-
-export const GEO_MAP: Record<string, string> = {
-  National: 'NTL',
-  Local: 'LCL',
-}
-
-export const PROVINCES = ['AB', 'BC', 'ON', 'QC', 'SK', 'MB', 'NB', 'NL', 'NS', 'PE', 'NA']
-
-export const AGE_DEMOS = ['18-26', '18-99', '20-26', '24-45', '25-44', '27-45', '30-45', '50-99']
-
-export const BUY_TYPES = ['CPM', 'CPC', 'CPA', 'CPCV', 'FLAT'] as const
-
-export const PLACEMENTS = {
-  CSTM: 'CSTM',
-  CTV: 'CTV',
-  ISTR: 'ISTR',
-  AUN: 'AUN',
-  IF: 'IF',
-  YTP: 'YTP',
-  YTC: 'YTC',
-}
-
-export const TACTIC_TYPES = {
-  CSTM: 'CSTM',
-  DEMO: 'DEMO',
-  BEH: 'BEH',
-}
-
-export const AD_DIMENSIONS = [
-  '300x250',
-  '320x50',
-  '728x90',
-  '160x600',
-  '1x1',
-  '9x16',
-  '1920x1080',
-  '1920x1920',
-  'NA',
-]
-
-export const LANGUAGES = ['EN', 'FR', 'EN/FR'] as const
-
-export const SOCIAL_SOURCES = ['meta', 'tiktok', 'reddit', 'linkedin', 'pinterest', 'instagram']
-
 // ── Platform Matching ─────────────────────────────────────────────────────────
 
 const platformKeysDescByLength = Object.keys(PLATFORM_MAPPINGS).sort((a, b) => b.length - a.length)
@@ -453,4 +353,14 @@ export function mapKpiToObjective(kpi: string): ObjectiveKey | '' {
   }
 
   return directMap[upper] ?? ''
+}
+
+// ── Product Detection ─────────────────────────────────────────────────────────
+
+export function detectProduct(text: string): ProductKey | null {
+  const upper = text.toUpperCase()
+  if (upper.includes('CAPVAXIVE') || upper.includes('PCN')) return 'PCN'
+  if (upper.includes('HCP') && (upper.includes('GARDASIL') || upper.includes('G9'))) return 'GSL_HCP'
+  if (upper.includes('GARDASIL') || upper.includes('G9') || upper.includes('GSL')) return 'GSL'
+  return null
 }
