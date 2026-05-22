@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import type {
   CampaignMeta,
   ProductKey,
@@ -41,12 +41,14 @@ export default function CampaignForm({ initialMeta, onSubmit }: CampaignFormProp
   const [targetUrl, setTargetUrl] = useState(initialMeta.targetUrl ?? '')
   const [errors, setErrors] = useState<Record<string, string>>({})
 
-  useEffect(() => {
-    if (!product) return
-    const config = PRODUCTS[product]
-    setAudience(config.default_audience)
-    setContentPurpose(config.default_content_purpose)
-  }, [product])
+  const handleProductChange = (value: ProductKey | '') => {
+    setProduct(value)
+    if (value) {
+      const config = PRODUCTS[value]
+      setAudience(config.default_audience)
+      setContentPurpose(config.default_content_purpose)
+    }
+  }
 
   const validate = () => {
     const errs: Record<string, string> = {}
@@ -88,7 +90,7 @@ export default function CampaignForm({ initialMeta, onSubmit }: CampaignFormProp
           <label className="mb-1 block text-sm font-medium text-gray-700">Product</label>
           <select
             value={product}
-            onChange={(e) => setProduct(e.target.value as ProductKey)}
+            onChange={(e) => handleProductChange(e.target.value as ProductKey)}
             className={fieldClass('product')}
           >
             <option value="">Select product…</option>
