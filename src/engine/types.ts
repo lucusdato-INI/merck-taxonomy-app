@@ -124,3 +124,27 @@ export interface ValidationResult {
   severity: ValidationSeverity
   field?: string
 }
+
+export type Confidence = 'auto' | 'inferred' | 'default' | 'unknown'
+
+export interface CellValue {
+  value: string
+  confidence: Confidence
+}
+
+export interface ExplodedRow {
+  channel: ChannelType
+  fields: Record<string, CellValue>
+  tacticId: string
+}
+
+export interface GenerationResult {
+  rows: ExplodedRow[]
+  meta: {
+    product: string
+    campaignName: string
+    yearMonth: string
+  }
+  warnings: string[]
+  yellowCellCount: number
+}
