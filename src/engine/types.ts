@@ -80,6 +80,8 @@ export interface ParsedTactic {
   dimensions: string[]
   adFormat: AdFormat
   buyType: BuyType | ''
+  placement: string
+  tacticType: string
   included: boolean
   personas: string[]
   promoIdEN: string

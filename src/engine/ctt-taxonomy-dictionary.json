@@ -1,0 +1,373 @@
+{
+  "_meta": {
+    "source": "https://wtt.platform-apps.io",
+    "section": "Paid Media",
+    "scrapedAt": "2026-05-22",
+    "mediums": ["Paid Social", "Search", "Display"]
+  },
+  "sharedFields": {
+    "medium": {
+      "type": "dropdown",
+      "required": true,
+      "values": ["Paid Social", "Search", "Display"]
+    },
+    "market": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "ALBANIA", "ALGERIA", "ANGOLA", "ARGENTINA", "ARMENIA", "ARUBA",
+        "ASIA PACIFIC", "AUSTRALIA", "AUSTRIA", "AZERBAIJAN", "BAHAMAS",
+        "BAHRAIN", "BALKAN CLUSTER", "BANGLADESH", "BARBADOS", "BELARUS",
+        "BELGIUM", "BELIZE", "BERMUDA", "BOLIVIA", "BOSNIA AND HERCEGOVINA",
+        "BOTSWANA", "BRAZIL", "BRUNEI DARUSSALAM", "BULGARIA", "CAMBODIA",
+        "CANADA", "CARD (CENTRAL AMERICA AND DOMINICAN REPUBLIC)", "CARIBBEAN",
+        "CARIBBEAN (CARD)", "CAYMAN ISLANDS", "CENTRAL ASIA", "CHILE", "CHINA",
+        "COLOMBIA", "COSTA RICA", "CROATIA", "CURACAO", "CYPRUS",
+        "CZECH REPUBLIC", "DENMARK", "DEVELOPING MARKETS ME",
+        "DOMINICAN REPUBLIC", "ECUADOR", "EGYPT", "EL SALVADOR",
+        "EMEAC REGION", "EPA", "ESTONIA", "ETHIOPIA", "EU PORTAL", "FINLAND",
+        "FRANCE", "FRENCH WEST AFRICA", "GEORGIA", "GERMANY", "GHANA",
+        "GLOBAL HQ", "GREECE", "GREECE-VIANEX", "GUATEMALA", "GULF", "HAITI",
+        "HONDURAS", "HONG KONG", "HUNGARY", "IBA", "ICELAND", "INDIA",
+        "INDONESIA", "IRAN", "IRAQ", "IRELAND", "ISRAEL", "ITALY", "JAMAICA",
+        "JAPAN", "JORDAN", "KAZAKHSTAN", "KENYA", "KOSOVO", "KUWAIT",
+        "KYRGYZSTAN", "LATIN AMERICA", "LATVIA", "LEBANON", "LESOTHO",
+        "LEVANT", "LIBYA", "LITHUANIA", "LUXEMBOURG", "MACAU", "MACEDONIA",
+        "MALAWI", "MALAYSIA", "MALTA", "MEXICO", "MOLDOVA", "MONGOLIA",
+        "MONTENEGRO", "MOROCCO", "MOZAMBIQUE", "MYANMAR", "NAMIBIA",
+        "NETHERLANDS", "NEW CALEDONIA", "NEW ZEALAND", "NICARAGUA", "NIGERIA",
+        "NORWAY", "OMAN", "PAKISTAN", "PANAMA", "PARAGUAY", "PERU",
+        "PHILIPPINES", "POLAND", "PORTUGAL", "PUERTO RICO", "QATAR",
+        "REUNION", "ROMANIA", "RUSSIA", "SAUDI ARABIA", "SERBIA", "SINGAPORE",
+        "SLOVAKIA", "SLOVENIA", "SOUTH AFRICA", "SOUTH KOREA", "SPAIN",
+        "SRI LANKA", "SUB SAHARA", "SUDAN", "SWAZILAND", "SWEDEN",
+        "SWITZERLAND", "SYRIA", "TAHITI", "TAIWAN", "TAJIKISTAN", "TANZANIA",
+        "THAILAND", "TRINIDAD AND TOBAGO", "TUNISIA", "TURKEY", "TURKMENISTAN",
+        "UGANDA", "UKRAINE", "UNITED ARAB EMIRATES", "UNITED KINGDOM",
+        "UNITED STATES", "URUGUAY", "US ONCOLOGY ALLIANCES", "UZBEKISTAN",
+        "VENEZUELA", "VIETNAM", "WESTERN CIS", "YEMEN", "ZAMBIA", "ZIMBABWE"
+      ]
+    },
+    "product": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "ADEMPAS", "AFLURIA", "MK-4482", "JENZYL", "ATRIPLA", "AzaSite",
+        "MK-8931", "WELIREG", "MK-6482", "INVANZ", "ERELSA", "ZOSTAVAX",
+        "COMVAX", "CRIXIVAN", "COSOPT", "Black Widow Spider Antivenin",
+        "CUBICIN", "PREVYMIS", "DESALEX", "JANUVIA", "JANUVIA/JANUMET",
+        "DIFICID", "STOCRIN", "DELSTRIGO", "DORAVIRINE", "PIFELTRO",
+        "DORAVIRINE", "JANUMET", "V920 - EBOLA", "CANCIDAS", "SEGLUROMET",
+        "ENTEREG", "NOROXIN", "INFLUENZA VACCINE", "SIMPONI", "GARDASIL 9",
+        "GUANIDINE", "RECOMBIVAX HB", "PEDVAX HIB", "HIF2a", "GARDASIL",
+        "BELSOMRA", "MK-1293 - insulin glargine", "JANUMET XR",
+        "KEYTRUDA+KISPLYX", "KOSELUGO", "LAGEVRIO", "LENVIMA", "STEGLUJAN",
+        "LYNPARZA", "REMICADE", "ISENTRESS", "ISLATRAVIR/DORAVIRINE",
+        "TRUSOPT", "ZINPLAVA", "JUVICOR", "JUVISYNC", "ISLATRAVIR", "MMR II",
+        "MODURETIC", "MK-7110", "MK-1026", "Corporate", "No Brand",
+        "Non Branded - Anaesthesia", "Non Branded - Antibiotics",
+        "Non Branded - Anti-Fungal", "Non Branded - Cardiovascular",
+        "Non Branded - Chronic Cough", "Non Branded - Covid-19",
+        "Non Branded - Diabetes", "Non Branded - EISAI Oncology",
+        "Non Branded - Gastroenterology", "Non Branded - HCV",
+        "Non Branded - Hepatitis C", "Non Branded - HIV/AIDS",
+        "Non Branded - HPV", "Non Branded - Immunology",
+        "Non Branded - Infectious Disease", "Non Branded - Insomnia",
+        "Non Branded - Men's Health", "Non Branded - Neuroscience",
+        "Non Branded - Oncology", "Non Branded - Oncology BIOMARKER",
+        "Non Branded - Oncology Breast", "Non Branded - Oncology Colorectal",
+        "Non Branded - Oncology cHL",
+        "Non Branded - Oncology Gastro-intestinal",
+        "Non Branded - Oncology HCC", "Non Branded - Oncology Head & Neck",
+        "Non Branded - Oncology Melanoma", "Non Branded - Oncology NSCLC",
+        "Non Branded - Oncology Pan Tumour", "Non Branded - Oncology RCC",
+        "Non Branded - Oncology Urothelial",
+        "Non Branded - Oncology Women's Cancer",
+        "Non Branded - Rheumatology", "Non Branded - Vaccines",
+        "Non Branded - Virology", "Biosimilars IMMU", "Biosimilars ONCO",
+        "ORGAMETRIL", "MK-7264 - gefapixant", "LYFNUA", "SUJANU",
+        "SEMAGLUTIDE", "AMINOHIPPURATE SODIUM (PAH) for Injection",
+        "PEPCIDINE", "PNEUMOVAX 23", "NOXAFIL", "V114 Pediatrics",
+        "MK-1308A", "PRINZIDE", "PRINIVIL", "VAXNEUVANCE", "V114", "V116",
+        "PROQUAD", "REBLOZYL", "CO-RENITEC", "ROTATEQ", "ROTAVIRUS",
+        "MK-1654 RSV", "ERVEBO", "Biosimilars IMMU SB2", "SIVEXTRO",
+        "WINREVAIR MK-7962", "MK-3102 - omarigliptin", "STEGLATRO", "EMEND",
+        "SYCREST", "SAFLUTAN", "TEMOZOLOMIDE", "TIMOPTOL", "TIMOPTIC",
+        "RECARBRIO", "TIENAM", "PRIMAXIN", "TUKYSA", "VAQTA", "VAXELIS",
+        "VERQUVO", "MK-7684A", "ZOLINZA", "VARIVAX", "WELIREG aRCC",
+        "CELESTAMINE", "ANDRIOL", "VICTRELIS", "BRIDION", "CEDAX",
+        "CLARITIN", "CLARITIN-D", "SYLATRON", "DECA DURABOLIN", "ESTROGEL",
+        "SANDRENA", "ESMERON", "GRACIAL", "FORADIL", "GENTAMICIN",
+        "GARASONE", "AVELOX I.V.", "AVELOX", "ZONTIVITY", "DIPROSALIC",
+        "DIPROSICC", "INTRON A", "PEGINTRON", "REBETOL", "EXLUTON",
+        "NITRO-DUR", "NORCURON", "ZOELY", "ONICIT", "CYCLESSA", "REMERON",
+        "STROMECTOL", "ONCOTICE", "TEMODAL", "RAGWITEK", "GRASTEK",
+        "ZEPATIER", "ZERBAXA", "MK-2140", "KEYTRUDA",
+        "KEYTRUDA - Biomarkers", "KEYTRUDA Biliary", "KEYTRUDA Bladder",
+        "KEYTRUDA Cervical", "KEYTRUDA cHL", "KEYTRUDA Endometrial",
+        "KEYTRUDA Esophageal", "KEYTRUDA Gastric", "KEYTRUDA HCC",
+        "KEYTRUDA Head and Neck", "KEYTRUDA Lung", "KEYTRUDA Melanoma",
+        "KEYTRUDA MSI-H", "KEYTRUDA NMIBC", "KEYTRUDA Ovarian",
+        "KEYTRUDA PMBCL", "KEYTRUDA Prostate", "KEYTRUDA RCC",
+        "KEYTRUDA RCC - Adjuvant", "KEYTRUDA TMB-H", "KEYTRUDA TNBC",
+        "KEYTRUDA+LENVIMA HCC", "KEYTRUDA+DOCETAXEL Prostate",
+        "KEYTRUDA+LENVIMA - Endometrial", "KEYTRUDA+LENVIMA - Lung",
+        "KEYTRUDA+LENVIMA - Melanoma", "KEYTRUDA+LENVIMA RCC",
+        "KEYTRUDA+LENVIMA -UC", "KEYTRUDA+LENVIMA - Multi-Tumor",
+        "KEYTRUDA mCRC", "KEYTRUDA+OLAPARIB Prostate",
+        "KEYTRUDA+LENVIMA RCC - Licensee",
+        "KEYTRUDA+LENVIMA Multi Tumor - Licensee", "KEYTRUDA Adj Bladder",
+        "KEYTRUDA cSCC", "KEYTRUDA Met Bladder", "KEYTRUDA CRC MSI-H",
+        "KEYTRUDA MPM", "CAPVAXIVE", "KEYTRUDA SubCu - Cervical",
+        "KEYTRUDA SubCu - Endometrial", "KEYTRUDA SubCu - Esophageal",
+        "KEYTRUDA SubCu - HCC", "ZAHERITY", "KEYTRUDA Endometrial Met",
+        "KEYTRUDA Gastric HER2 - Met", "KEYTRUDA Urothelial Met",
+        "KEYTRUDA SubCu - Early Lung", "KYETRUDA MIBC", "KEYTRUDA Myeloma",
+        "KEYTRUDA Subcu - Breast", "KEYTRUDA Subcu - Gastric",
+        "KEYTRUDA Subcu - Head and Neck", "KEYTRUDA Subcu - Met. Melanoma",
+        "MK-0616 - enlicitide", "KEYTRUDA SubCu - Multi-Tumor",
+        "MK-7240 - tulisokibart", "MK-8527", "KEYTRUDA SubCu - Prostate",
+        "KEYTRUDA SubCu - RCC", "KEYTRUDA  SubCu - Met Breast",
+        "KEYTRUDA SubCu - Melanoma", "KEYTRUDA SubCu - Ovarian",
+        "ZAHERITY Lung", "KEYTRUDA SubCu - Hematology",
+        "KEYTRUDA Gastric Met", "KEYTRUDA Urothelial Met",
+        "KEYTRUDA SubCu - Lung", "KEYTRUDA SubCu - Bladder",
+        "KEYTRUDA SubCu - MSI-H", "MK-0616 - enlicitide", "KEYTRUDA SubCu",
+        "KEYTRUDA SubCu - Other", "MK-7240 - tulisokibart",
+        "KEYTRUDA UROTHELIAL", "ENFLONSIA", "HER3-DXd", "I-DXd-B7H3",
+        "MK-3000", "OHTUVAYRE", "RDXD"
+      ]
+    },
+    "campaignType": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "Co-Branded", "Branded", "Mix Branding", "Unbranded", "Other",
+        "Competitor"
+      ]
+    },
+    "objective": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "Action", "Awareness", "Advocacy", "Consideration", "Engagement",
+        "Event Invitation", "Followers", "Traffic", "App Installs",
+        "Video Views", "Lead Gen", "Page Like", "Conversion",
+        "Direct Response", "Retention", "Sales", "Research", "Ask Doctor",
+        "Prescribe"
+      ]
+    },
+    "audience": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "Healthcare Professional", "Healthcare Consumer", "Dentist",
+        "General Practitioner", "General Public",
+        "Government and Policy Stakeholders", "Health Authorities",
+        "Hospitals and Academic Centers", "Internal Use Only",
+        "Journalists and Press", "Nurse", "Patient Organization", "Payers",
+        "Pharmacist", "Professional Bodies", "Specialist Physician",
+        "Not Applicable"
+      ]
+    },
+    "gender": {
+      "type": "dropdown",
+      "required": false,
+      "values": ["Female", "Male", "Not Applicable", "All"]
+    },
+    "contentPurpose": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "Access and Support", "Clinical Studies and Research", "Corporate",
+        "Disease Awareness", "Education", "Educational Event", "Epidemiology",
+        "Patient Profiles and Stories", "Patient Support Programs",
+        "Product Awareness", "Product Family Commitment",
+        "Resources and Tools", "Treatment Paradigms", "Not Applicable"
+      ]
+    },
+    "adFormat": {
+      "type": "dropdown",
+      "required": true,
+      "values": [
+        "Canvas", "Carousel", "Custom", "Image", "LinkAd", "Video",
+        "Animation", "Text", "Native", "Banner", "Audio", "Content",
+        "Convention", "Digital Display (Non-Targeted Banner)",
+        "Digital Display (Targeted Banner)", "Direct Mail", "Email",
+        "In Office", "Influencers", "Long Form", "MedEd", "Newsletter",
+        "Short Form", "SMS", "Social"
+      ]
+    },
+    "campaignName": { "type": "text", "required": true },
+    "yearMonth": { "type": "text", "required": true },
+    "customTag1": { "type": "text", "required": false },
+    "persona": { "type": "text", "required": false },
+    "ageDemographic": { "type": "text", "required": false },
+    "promomatsId": { "type": "text", "required": true },
+    "adDimensions": { "type": "text", "required": true },
+    "targetUrl": { "type": "text", "required": true },
+    "linkAnchor": { "type": "text", "required": false }
+  },
+  "perMedium": {
+    "Paid Social": {
+      "formTitle": "Paid media Social",
+      "sections": ["CAMPAIGN", "AD SET", "AD", "UTM TAG"],
+      "fields": [
+        "medium", "market", "product", "campaignName", "campaignType",
+        "objective", "yearMonth", "customTag1",
+        "source", "audience", "persona", "gender", "ageDemographic",
+        "placement", "tacticType", "geo", "customTag2",
+        "promomatsId", "contentPurpose", "adFormat", "adDimensions",
+        "customTag3",
+        "targetUrl", "linkAnchor"
+      ],
+      "uniqueDropdowns": {
+        "source": {
+          "values": [
+            "Facebook", "Instagram", "Meta", "Snapchat",
+            "X formerly Twitter", "Pinterest", "Reddit", "LinkedIn",
+            "YouTube", "TikTok", "Tinder", "Grindr", "Nextdoor", "Podcast",
+            "Whatsapp", "Bereal"
+          ]
+        },
+        "placement": {
+          "values": [
+            "Audience Network", "Instant Articles", "Instream", "Marketplace",
+            "Multiple", "Newsfeed", "Stories", "Bumper Ad",
+            "YouTube True View In-Stream Ad",
+            "YouTube True View Discovery Ad", "YouTube In Feed",
+            "YouTube Pre-Roll", "YouTube Non-Skippable", "Native", "Reels",
+            "Cost Per Click", "SearchAd", "Channel", "Companion Banner",
+            "Custom", "Discovery", "Email", "FEP/Long Form Video Content",
+            "Google Preferred", "HighImpactUnit", "HPTO", "Roadblock", "RON",
+            "ROS", "Sponsorship", "Streaming Radio", "Brand Alerts",
+            "YouTube Select", "YouTube CTV", "Pre-roll", "CTV"
+          ]
+        },
+        "tacticType": {
+          "values": [
+            "Behavioral", "Conquesting", "Contextual", "CRMSegment",
+            "Custom", "Demographics", "GeoTargeting", "Interest", "Lifestyle",
+            "Lookalike", "Prospecting", "Retargeting", "High Value Audience",
+            "Keyword Targeting", "Layered", "GeoFencing", "Not Applicable",
+            "Audience Segment", "Predictive"
+          ]
+        },
+        "geo": {
+          "values": [
+            "International", "MSD Region", "MSD Cluster", "National",
+            "Sub-national", "City", "Local", "Precision"
+          ]
+        }
+      },
+      "textOnlyFields": ["customTag2", "customTag3"]
+    },
+    "Search": {
+      "formTitle": "Paid media Search",
+      "sections": ["CAMPAIGN", "AD SET", "UTM TAG"],
+      "fields": [
+        "medium", "market", "product", "campaignName", "campaignType",
+        "objective", "yearMonth", "customTag1",
+        "source", "audience", "promomatsId", "persona", "gender",
+        "ageDemographic", "contentPurpose", "matchType", "adFormat",
+        "adDimensions", "customTag2",
+        "targetUrl", "linkAnchor"
+      ],
+      "uniqueDropdowns": {
+        "source": {
+          "values": [
+            "Google", "Bing", "DuckDuckGo", "Ecosia", "Yahoo", "Baidu",
+            "Ask", "Perform Media", "Deep Intent", "Other"
+          ]
+        },
+        "matchType": {
+          "values": [
+            "Broad", "Broad, Phase, Exact", "Broad Match Modified", "Phrase",
+            "Exact"
+          ]
+        }
+      },
+      "excludedFields": ["placement", "tacticType", "geo", "customTag3"]
+    },
+    "Display": {
+      "formTitle": "Paid Media Display",
+      "sections": ["CAMPAIGN", "PLACEMENT / AD NAME", "CREATIVE", "UTM TAG"],
+      "fields": [
+        "medium", "market", "product", "campaignName", "campaignType",
+        "objective", "yearMonth", "customTag1",
+        "source", "site", "audience", "persona", "gender", "ageDemographic",
+        "placement", "tacticType", "geo", "buyType", "customTag2",
+        "promomatsId", "contentPurpose", "adFormat", "adDimensions",
+        "customTag3",
+        "targetUrl", "linkAnchor"
+      ],
+      "uniqueDropdowns": {
+        "source": {
+          "values": [
+            "Facebook", "Instagram", "Meta", "Snapchat",
+            "X formerly Twitter", "Pinterest", "Reddit", "LinkedIn",
+            "YouTube", "Google Ads", "Google Display Network", "Teads",
+            "ScoopWhoop", "Vagabomb", "Spotify", "Quora", "Mcanvas",
+            "TikTok", "Tinder", "Grindr", "Taboola", "DV360", "TradeDesk",
+            "CM360", "Nextdoor", "Ad.net", "Amazon", "Apple Search", "Bing",
+            "Perform Media", "Pulsepoint", "Swoop", "Yahoo", "Yandex",
+            "Microsoft Audience Network", "Google Discovery Campaigns",
+            "Google Local Campaigns", "Smart Shopping Campaigns",
+            "Microsoft Syndicated Partners", "NetDoktor",
+            "Screen on Demand (SOD)", "Permodo", "Stroer", "gutefrage.net",
+            "Lovoo", "Brand Community Network", "Agora", "Target Media",
+            "Gum Gum", "Librus", "Proxi cloud", "Sataku", "YOC",
+            "Advertorial", "iDoctus", "LINE", "OneAD", "Podcast", "Adform",
+            "Cineplex", "The Score", "Roku", "Weather Network", "Vistar",
+            "Zefr", "Rds", "TVA Sports", "Eium", "In Magazine",
+            "HCP-Community", "PrintAd", "Teaser", "Ogury", "Stellar Dating",
+            "Ad Alliance", "SevenOne Media", "Vistar", "Astral",
+            "Direct Media Buying", "Medscape", "IMD", "Sermo", "CHN", "CMAJ",
+            "Clickforce", "ETtoday", "Dcard", "TVBS", "Native Touch",
+            "Google Demand Gen", "Joca Media", "Outbrain", "Google PMax",
+            "SA360", "Appier", "Vpon", "VM5", "Popin", "91APP", "AD2", "Uber"
+          ]
+        },
+        "placement": {
+          "values": [
+            "Audience Network", "Instant Articles", "Instream", "Marketplace",
+            "Multiple", "Newsfeed", "Stories", "Bumper Ad",
+            "YouTube True View In-Stream Ad",
+            "YouTube True View Discovery Ad", "YouTube In Feed",
+            "YouTube Pre-Roll", "YouTube Non-Skippable", "Native", "Reels",
+            "Cost Per Click", "SearchAd", "Channel", "Companion Banner",
+            "Custom", "Discovery", "Email", "FEP/Long Form Video Content",
+            "Google Preferred", "HighImpactUnit", "HPTO", "Roadblock", "RON",
+            "ROS", "Sponsorship", "Streaming Radio", "Brand Alerts",
+            "YouTube Select", "YouTube CTV", "Pre-roll", "CTV"
+          ]
+        },
+        "tacticType": {
+          "values": [
+            "Behavioral", "Conquesting", "Contextual", "CRMSegment",
+            "Custom", "Demographics", "GeoTargeting", "Interest", "Lifestyle",
+            "Lookalike", "Prospecting", "Retargeting", "High Value Audience",
+            "Keyword Targeting", "Layered", "GeoFencing", "Not Applicable",
+            "Audience Segment", "Predictive"
+          ]
+        },
+        "geo": {
+          "values": [
+            "International", "MSD Region", "MSD Cluster", "National",
+            "Sub-national", "City", "Local", "Precision"
+          ]
+        },
+        "buyType": {
+          "values": [
+            "Cost per Action", "Cost per Click", "Cost per Completed View",
+            "Cost per Engagement", "Cost per Thousand Impressions",
+            "Cost per Thousand Viewable Impressions",
+            "Cost per unique visitor/visits", "Cost per View", "Flat rate",
+            "Free"
+          ]
+        }
+      },
+      "extraTextFields": ["site"]
+    }
+  }
+}

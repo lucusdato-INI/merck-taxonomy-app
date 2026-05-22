@@ -163,8 +163,8 @@ function buildSocialRow(
     ctx.persona.name,
     ctx.persona.genderAcronym,
     ctx.persona.ageDmo,
-    platform.defaultPlacement,
-    platform.defaultTacticType,
+    tactic.placement || platform.defaultPlacement,
+    tactic.tacticType || platform.defaultTacticType,
     ctx.geo,
     ct2,
   ].join('_')
@@ -172,6 +172,9 @@ function buildSocialRow(
   if (tactic.isInfluencer && tactic.influencerName) {
     adSetString += `+${tactic.influencerName}`
   }
+
+  const placementVal = tactic.placement || platform.defaultPlacement
+  const tacticTypeVal = tactic.tacticType || platform.defaultTacticType
 
   const cf3 = [
     ctx.persona.name,
@@ -215,8 +218,8 @@ function buildSocialRow(
       genderFull: ctx.persona.genderFull,
       genderAcronym: ctx.persona.genderAcronym,
       ageDemo: ctx.persona.ageDmo,
-      placement: platform.defaultPlacement,
-      tacticType: platform.defaultTacticType,
+      placement: placementVal,
+      tacticType: tacticTypeVal,
       geo: ctx.geo,
       language: ctx.language,
       province: ctx.province,
@@ -254,6 +257,9 @@ function buildDigitalRow(
     'Digital',
   ].join('_')
 
+  const placementVal = tactic.placement || platform.defaultPlacement
+  const tacticTypeVal = tactic.tacticType || platform.defaultTacticType
+
   const placementString = [
     platform.channel,
     platform.source,
@@ -262,8 +268,8 @@ function buildDigitalRow(
     ctx.persona.name,
     ctx.persona.genderAcronym,
     ctx.persona.ageDmo,
-    platform.defaultPlacement,
-    platform.defaultTacticType,
+    placementVal,
+    tacticTypeVal,
     ctx.geo,
     tactic.buyType || platform.defaultBuyType,
     ctx.language,
@@ -315,8 +321,8 @@ function buildDigitalRow(
       genderFull: ctx.persona.genderFull,
       genderAcronym: ctx.persona.genderAcronym,
       ageDemo: ctx.persona.ageDmo,
-      placement: platform.defaultPlacement,
-      tacticType: platform.defaultTacticType,
+      placement: placementVal,
+      tacticType: tacticTypeVal,
       geo: ctx.geo,
       buyType: (tactic.buyType || platform.defaultBuyType) as string,
       language: ctx.language,
