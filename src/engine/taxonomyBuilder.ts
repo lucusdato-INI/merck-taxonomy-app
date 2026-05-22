@@ -6,50 +6,47 @@ import type {
   ProductKey,
   PersonaPaired,
   PersonaIndividual,
-} from "./types";
-import { PRODUCTS, PLATFORM_MAPPINGS, CAMPAIGN_TYPE_MAP, OBJECTIVE_MAP } from "./config";
-import { removeSpaces } from "../utils/formatters";
+} from './types'
+import { PRODUCTS, PLATFORM_MAPPINGS, CAMPAIGN_TYPE_MAP, OBJECTIVE_MAP } from './config'
+import { removeSpaces } from '../utils/formatters'
 
 interface PersonaContext {
-  name: string;
-  genderFull: string;
-  genderAcronym: string;
-  ageDmo: string;
+  name: string
+  genderFull: string
+  genderAcronym: string
+  ageDmo: string
 }
 
 interface RowContext {
-  persona: PersonaContext;
-  language: Language;
-  province: string;
-  dimension: string;
-  geo: string;
+  persona: PersonaContext
+  language: Language
+  province: string
+  dimension: string
+  geo: string
 }
 
 export function buildTaxonomy(meta: CampaignMeta, tactics: ParsedTactic[]): TaxonomyRow[] {
-  const rows: TaxonomyRow[] = [];
+  const rows: TaxonomyRow[] = []
 
   for (const tactic of tactics) {
-    if (!tactic.included || !tactic.platformKey) continue;
+    if (!tactic.included || !tactic.platformKey) continue
 
-    const platformMapping = PLATFORM_MAPPINGS[tactic.platformKey];
-    if (!platformMapping) continue;
+    const platformMapping = PLATFORM_MAPPINGS[tactic.platformKey]
+    if (!platformMapping) continue
 
-    const contexts = explodeRows(meta.product, tactic);
+    const contexts = explodeRows(meta.product, tactic)
 
     for (const ctx of contexts) {
-      const promoId =
-        ctx.language === "FR"
-          ? tactic.promoIdFR || "TBD"
-          : tactic.promoIdEN || "TBD";
-      const creativeName = tactic.creativeName || "na";
-      const contentPurpose = meta.contentPurpose;
-      const customTag3 = removeSpaces(creativeName);
+      const promoId = ctx.language === 'FR' ? tactic.promoIdFR || 'TBD' : tactic.promoIdEN || 'TBD'
+      const creativeName = tactic.creativeName || 'na'
+      const contentPurpose = meta.contentPurpose
+      const customTag3 = removeSpaces(creativeName)
 
-      if (platformMapping.channel === "SOC") {
+      if (platformMapping.channel === 'SOC') {
         rows.push(
           buildSocialRow(meta, tactic, platformMapping, ctx, promoId, contentPurpose, customTag3),
-        );
-      } else if (platformMapping.channel === "DISP") {
+        )
+      } else if (platformMapping.channel === 'DISP') {
         rows.push(
           buildDigitalRow(
             meta,
@@ -60,28 +57,26 @@ export function buildTaxonomy(meta: CampaignMeta, tactics: ParsedTactic[]): Taxo
             contentPurpose,
             creativeName,
           ),
-        );
-      } else if (platformMapping.channel === "search") {
-        rows.push(
-          buildSearchRow(meta, tactic, platformMapping, ctx, promoId, contentPurpose),
-        );
+        )
+      } else if (platformMapping.channel === 'search') {
+        rows.push(buildSearchRow(meta, tactic, platformMapping, ctx, promoId, contentPurpose))
       }
     }
   }
 
-  return deduplicateRows(rows);
+  return deduplicateRows(rows)
 }
 
 function explodeRows(productKey: ProductKey, tactic: ParsedTactic): RowContext[] {
-  const config = PRODUCTS[productKey];
-  const personas = config.personas;
-  const contexts: RowContext[] = [];
+  const config = PRODUCTS[productKey]
+  const personas = config.personas
+  const contexts: RowContext[] = []
 
-  const dimensions = tactic.dimensions.length > 0 ? tactic.dimensions : ["TBD"];
-  const languages = tactic.language.length > 0 ? tactic.language : (["EN"] as Language[]);
+  const dimensions = tactic.dimensions.length > 0 ? tactic.dimensions : ['TBD']
+  const languages = tactic.language.length > 0 ? tactic.language : (['EN'] as Language[])
 
-  if (personas.type === "paired") {
-    const paired = personas as PersonaPaired;
+  if (personas.type === 'paired') {
+    const paired = personas as PersonaPaired
 
     for (const pairEntry of Object.values(paired.pairs)) {
       for (const lang of languages) {
@@ -97,22 +92,21 @@ function explodeRows(productKey: ProductKey, tactic: ParsedTactic): RowContext[]
             province: paired.province,
             dimension: dim,
             geo: paired.geo_code,
-          });
+          })
         }
       }
     }
   } else {
-    const individual = personas as PersonaIndividual;
-    const selectedPersonas = tactic.personas.length > 0
-      ? tactic.personas
-      : Object.keys(individual.named);
+    const individual = personas as PersonaIndividual
+    const selectedPersonas =
+      tactic.personas.length > 0 ? tactic.personas : Object.keys(individual.named)
 
     for (const personaName of selectedPersonas) {
-      const personaDef = individual.named[personaName];
-      if (!personaDef) continue;
+      const personaDef = individual.named[personaName]
+      if (!personaDef) continue
 
       for (const lang of languages) {
-        const provinces = lang === "FR" ? config.provinces_fr : config.provinces_en;
+        const provinces = lang === 'FR' ? config.provinces_fr : config.provinces_en
         for (const province of provinces) {
           for (const dim of dimensions) {
             contexts.push({
@@ -126,41 +120,41 @@ function explodeRows(productKey: ProductKey, tactic: ParsedTactic): RowContext[]
               province,
               dimension: dim,
               geo: individual.geo_code,
-            });
+            })
           }
         }
       }
     }
   }
 
-  return contexts;
+  return contexts
 }
 
 function buildSocialRow(
   meta: CampaignMeta,
   tactic: ParsedTactic,
-  platform: typeof PLATFORM_MAPPINGS[string],
+  platform: (typeof PLATFORM_MAPPINGS)[string],
   ctx: RowContext,
   promoId: string,
   contentPurpose: string,
   customTag3: string,
 ): TaxonomyRow {
-  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType];
-  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : "TBD";
+  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType]
+  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : 'TBD'
 
-  const ct1 = tactic.isInfluencer ? "Social+Influencer" : platform.customTag1;
+  const ct1 = tactic.isInfluencer ? 'Social+Influencer' : platform.customTag1
 
   const campaignString = [
-    "CA",
+    'CA',
     PRODUCTS[meta.product].product_acronym,
     meta.campaignName,
     campaignTypeAcr,
     objectiveAcr,
     meta.yearMonth,
     ct1,
-  ].join("_");
+  ].join('_')
 
-  const ct2 = `${ctx.language}+${ctx.province}`;
+  const ct2 = `${ctx.language}+${ctx.province}`
 
   let adSetString = [
     platform.channel,
@@ -173,10 +167,10 @@ function buildSocialRow(
     platform.defaultTacticType,
     ctx.geo,
     ct2,
-  ].join("_");
+  ].join('_')
 
   if (tactic.isInfluencer && tactic.influencerName) {
-    adSetString += `+${tactic.influencerName}`;
+    adSetString += `+${tactic.influencerName}`
   }
 
   const cf3 = [
@@ -186,21 +180,18 @@ function buildSocialRow(
     ctx.language,
     ctx.province,
     customTag3,
-  ].join("+");
+  ].join('+')
 
-  const adString = [promoId, contentPurpose, tactic.adFormat, ctx.dimension, cf3].join("_");
+  const adString = [promoId, contentPurpose, tactic.adFormat, ctx.dimension, cf3].join('_')
 
-  const adSetForUtm = adSetString
-    .split("_")
-    .slice(2)
-    .join("_");
+  const adSetForUtm = adSetString.split('_').slice(2).join('_')
 
   const utmString = meta.targetUrl
     ? `${meta.targetUrl}?utm_source=${platform.source}&utm_medium=paid-social&utm_campaign=${campaignString}&utm_adset=${adSetForUtm}&utm_content=${adString}`
-    : "";
+    : ''
 
   return {
-    type: "social",
+    type: 'social',
     campaignString,
     adSetString,
     adString,
@@ -208,7 +199,7 @@ function buildSocialRow(
     tacticId: tactic.id,
     validationErrors: [],
     fields: {
-      market: "CA",
+      market: 'CA',
       product: PRODUCTS[meta.product].product_acronym,
       campaignName: meta.campaignName,
       campaignType: campaignTypeAcr,
@@ -236,32 +227,32 @@ function buildSocialRow(
       adDimensions: ctx.dimension,
       customTag3,
       utmSource: platform.source,
-      utmMedium: "paid-social",
+      utmMedium: 'paid-social',
     },
-  };
+  }
 }
 
 function buildDigitalRow(
   meta: CampaignMeta,
   tactic: ParsedTactic,
-  platform: typeof PLATFORM_MAPPINGS[string],
+  platform: (typeof PLATFORM_MAPPINGS)[string],
   ctx: RowContext,
   promoId: string,
   contentPurpose: string,
   creativeName: string,
 ): TaxonomyRow {
-  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType];
-  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : "TBD";
+  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType]
+  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : 'TBD'
 
   const campaignString = [
-    "CA",
+    'CA',
     PRODUCTS[meta.product].product_acronym,
     meta.campaignName,
     campaignTypeAcr,
     objectiveAcr,
     meta.yearMonth,
-    "Digital",
-  ].join("_");
+    'Digital',
+  ].join('_')
 
   const placementString = [
     platform.channel,
@@ -276,9 +267,9 @@ function buildDigitalRow(
     ctx.geo,
     tactic.buyType || platform.defaultBuyType,
     ctx.language,
-  ].join("_");
+  ].join('_')
 
-  const cleanCreativeName = removeSpaces(creativeName);
+  const cleanCreativeName = removeSpaces(creativeName)
   const cf3 = [
     cleanCreativeName,
     ctx.persona.name,
@@ -287,22 +278,19 @@ function buildDigitalRow(
     ctx.province,
     ctx.language,
     platform.source,
-  ].join("+");
+  ].join('+')
 
-  const creativeString = [promoId, contentPurpose, tactic.adFormat, ctx.dimension, cf3].join("_");
+  const creativeString = [promoId, contentPurpose, tactic.adFormat, ctx.dimension, cf3].join('_')
 
-  const placementForUtm = placementString
-    .split("_")
-    .slice(3)
-    .join("_");
+  const placementForUtm = placementString.split('_').slice(3).join('_')
 
-  const utmSource = `${platform.source}_${platform.site}`;
+  const utmSource = `${platform.source}_${platform.site}`
   const utmString = meta.targetUrl
     ? `${meta.targetUrl}?utm_source=${utmSource}&utm_medium=display&utm_campaign=${campaignString}&utm_adset=${placementForUtm}&utm_content=${creativeString}`
-    : "";
+    : ''
 
   return {
-    type: "digital",
+    type: 'digital',
     campaignString,
     adSetString: placementString,
     adString: creativeString,
@@ -310,13 +298,13 @@ function buildDigitalRow(
     tacticId: tactic.id,
     validationErrors: [],
     fields: {
-      market: "CA",
+      market: 'CA',
       product: PRODUCTS[meta.product].product_acronym,
       campaignName: meta.campaignName,
       campaignType: campaignTypeAcr,
       objective: objectiveAcr,
       yearMonth: meta.yearMonth,
-      customTag1: "Digital",
+      customTag1: 'Digital',
       startDate: meta.startDate,
       endDate: meta.endDate,
       channel: platform.channel,
@@ -340,38 +328,38 @@ function buildDigitalRow(
       creativeName: cleanCreativeName,
       geoTargeting: ctx.province,
       utmSource,
-      utmMedium: "display",
+      utmMedium: 'display',
     },
-  };
+  }
 }
 
 function buildSearchRow(
   meta: CampaignMeta,
   tactic: ParsedTactic,
-  platform: typeof PLATFORM_MAPPINGS[string],
+  platform: (typeof PLATFORM_MAPPINGS)[string],
   ctx: RowContext,
   promoId: string,
   contentPurpose: string,
 ): TaxonomyRow {
-  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType];
-  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : "TBD";
+  const campaignTypeAcr = CAMPAIGN_TYPE_MAP[meta.campaignType]
+  const objectiveAcr = meta.objective ? OBJECTIVE_MAP[meta.objective] : 'TBD'
 
-  const ct1WithLang = `${platform.customTag1}+${ctx.language}`;
+  const ct1WithLang = `${platform.customTag1}+${ctx.language}`
 
   const campaignString = [
-    "CA",
+    'CA',
     PRODUCTS[meta.product].product_acronym,
     meta.campaignName,
     campaignTypeAcr,
     objectiveAcr,
     meta.yearMonth,
     ct1WithLang,
-  ].join("_");
+  ].join('_')
 
-  const ct2 = `${ctx.language}+${removeSpaces(tactic.creativeName || "na")}`;
+  const ct2 = `${ctx.language}+${removeSpaces(tactic.creativeName || 'na')}`
 
   const adSetString = [
-    "search",
+    'search',
     platform.source,
     meta.audience,
     ctx.persona.name,
@@ -382,34 +370,31 @@ function buildSearchRow(
     tactic.matchType,
     tactic.adFormat,
     `${ctx.dimension}+${ct2}`,
-  ].join("_");
+  ].join('_')
 
-  const adSetForUtm = adSetString
-    .split("_")
-    .slice(2)
-    .join("_");
+  const adSetForUtm = adSetString.split('_').slice(2).join('_')
 
   const utmString = meta.targetUrl
     ? `${meta.targetUrl}?utm_source=${platform.source}&utm_medium=CPC&utm_campaign=${campaignString}&utm_adset=${adSetForUtm}`
-    : "";
+    : ''
 
   return {
-    type: "search",
+    type: 'search',
     campaignString,
     adSetString,
-    adString: "",
+    adString: '',
     utmString,
     tacticId: tactic.id,
     validationErrors: [],
     fields: {
-      market: "CA",
+      market: 'CA',
       product: PRODUCTS[meta.product].product_acronym,
       campaignName: meta.campaignName,
       campaignType: campaignTypeAcr,
       objective: objectiveAcr,
       yearMonth: meta.yearMonth,
       customTag1: ct1WithLang,
-      channel: "search",
+      channel: 'search',
       source: platform.source,
       audience: meta.audience,
       persona: ctx.persona.name,
@@ -423,17 +408,17 @@ function buildSearchRow(
       language: ctx.language,
       customTag2: ct2,
       utmSource: platform.source,
-      utmMedium: "CPC",
+      utmMedium: 'CPC',
     },
-  };
+  }
 }
 
 function deduplicateRows(rows: TaxonomyRow[]): TaxonomyRow[] {
-  const seen = new Set<string>();
+  const seen = new Set<string>()
   return rows.filter((row) => {
-    const key = `${row.adSetString}|${row.adString}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
+    const key = `${row.adSetString}|${row.adString}`
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
 }
