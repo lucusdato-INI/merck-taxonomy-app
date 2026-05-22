@@ -5,6 +5,11 @@ import App from './App'
 describe('App', () => {
   it('renders the app header', () => {
     render(<App />)
-    expect(screen.getByText('MSD CTT Taxonomy Generator')).toBeInTheDocument()
+    expect(screen.getByText('CTT Traffic Sheet Generator')).toBeInTheDocument()
+  })
+
+  it('shows upload instructions', () => {
+    render(<App />)
+    expect(screen.getByText(/upload a blocking chart/i)).toBeInTheDocument()
   })
 })

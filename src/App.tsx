@@ -1,210 +1,131 @@
 import { useState, useCallback } from 'react'
-import type { CampaignMeta, ParsedTactic, TaxonomyRow } from './engine/types'
-import { parseBlockingChart, buildTaxonomy, validateAll, PRODUCTS } from './engine'
+import { saveAs } from 'file-saver'
+import { parseBlockingChart, explodeRows, countYellowCells, generateFormulaSheet, PRODUCTS } from './engine'
+import type { ExplodedRow, CampaignMeta } from './engine/types'
 import FileUploader from './components/FileUploader'
-import CampaignForm from './components/CampaignForm'
-import TacticReview from './components/TacticReview'
-import TaxonomyPreview from './components/TaxonomyPreview'
-import DownloadPanel from './components/DownloadPanel'
+import ResultSummary from './components/ResultSummary'
 
-const STEPS = [
-  'Upload Blocking Chart',
-  'Campaign Configuration',
-  'Review Tactics',
-  'Preview & Validate',
-  'Download',
-]
-
-type StringField = 'campaignString' | 'adSetString' | 'adString' | 'utmString'
+type AppState = 'upload' | 'processing' | 'result'
 
 function App() {
-  const [step, setStep] = useState(0)
-
-  // Step 1
+  const [state, setState] = useState<AppState>('upload')
   const [isLoading, setIsLoading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [fileName, setFileName] = useState<string | null>(null)
-  const [parsedMeta, setParsedMeta] = useState<Partial<CampaignMeta>>({})
+
+  const [rows, setRows] = useState<ExplodedRow[]>([])
+  const [meta, setMeta] = useState<{ product: string; campaignName: string; yearMonth: string }>({
+    product: '',
+    campaignName: '',
+    yearMonth: '',
+  })
   const [warnings, setWarnings] = useState<string[]>([])
-
-  // Step 2
-  const [meta, setMeta] = useState<CampaignMeta | null>(null)
-
-  // Step 3
-  const [tactics, setTactics] = useState<ParsedTactic[]>([])
-
-  // Step 4
-  const [rows, setRows] = useState<TaxonomyRow[]>([])
-  const [overrides, setOverrides] = useState<Record<string, Record<string, string>>>({})
-
-  // ── Handlers ────────────────────────────────────────────────────────────────
+  const [yellowCount, setYellowCount] = useState(0)
 
   const handleUpload = useCallback(async (file: File) => {
     setIsLoading(true)
     setUploadError(null)
+    setState('processing')
+
     try {
       const result = await parseBlockingChart(file)
-      setFileName(file.name)
-      setParsedMeta(result.meta)
-      setTactics(result.tactics)
-      setWarnings(result.warnings)
+      const parsedMeta = result.meta as Partial<CampaignMeta>
 
-      if (result.tactics.length === 0 && result.warnings.length > 0) {
-        setUploadError(result.warnings.join(' '))
-      } else {
-        setStep(1)
+      if (result.tactics.length === 0) {
+        setUploadError(result.warnings.join(' ') || 'No tactics found in the blocking chart.')
+        setState('upload')
+        return
       }
+
+      const campaignMeta: CampaignMeta = {
+        product: parsedMeta.product ?? ('' as CampaignMeta['product']),
+        campaignName: parsedMeta.campaignName ?? '',
+        campaignType: '' as CampaignMeta['campaignType'],
+        objective: parsedMeta.objective ?? ('' as CampaignMeta['objective']),
+        yearMonth: parsedMeta.yearMonth ?? '',
+        audience: parsedMeta.audience ?? ('' as CampaignMeta['audience']),
+        contentPurpose: parsedMeta.contentPurpose ?? ('' as CampaignMeta['contentPurpose']),
+        targetUrl: '',
+        startDate: parsedMeta.startDate ?? '',
+        endDate: parsedMeta.endDate ?? '',
+      }
+
+      const productConfig = parsedMeta.product ? PRODUCTS[parsedMeta.product] : null
+      const exploded = explodeRows(campaignMeta, result.tactics)
+      const yellows = countYellowCells(exploded)
+
+      setFileName(file.name)
+      setRows(exploded)
+      setMeta({
+        product: productConfig?.product_acronym ?? 'UNKNOWN',
+        campaignName: parsedMeta.campaignName ?? file.name.replace(/\.xlsx$/i, ''),
+        yearMonth: parsedMeta.yearMonth ?? '',
+      })
+      setWarnings(result.warnings)
+      setYellowCount(yellows)
+      setState('result')
     } catch {
       setUploadError(
         'Could not read the blocking chart. Please ensure it is a valid .xlsx file with tactic/platform data.',
       )
+      setState('upload')
     } finally {
       setIsLoading(false)
     }
   }, [])
 
-  const handleFormSubmit = useCallback((m: CampaignMeta) => {
-    setMeta(m)
+  const handleDownload = useCallback(async () => {
+    const buffer = await generateFormulaSheet(rows, meta)
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    })
+    const filename = `${meta.product}_${meta.campaignName}_${meta.yearMonth}_Traffic_Sheet.xlsx`
+    saveAs(blob, filename)
+  }, [rows, meta])
 
-    const config = PRODUCTS[m.product]
-    const personaNames =
-      config.personas.type === 'paired'
-        ? Object.values(config.personas.pairs).map((p) => p.pair_name)
-        : Object.keys(config.personas.named)
-
-    setTactics((prev) =>
-      prev.map((t) => ({
-        ...t,
-        personas: t.personas.length > 0 ? t.personas : [...personaNames],
-      })),
-    )
-
-    setStep(2)
+  const handleReset = useCallback(() => {
+    setState('upload')
+    setFileName(null)
+    setRows([])
+    setWarnings([])
+    setYellowCount(0)
+    setUploadError(null)
   }, [])
-
-  const handleGenerate = useCallback(() => {
-    if (!meta) return
-    const included = tactics.filter((t) => t.included)
-    const built = buildTaxonomy(meta, included)
-    const validated = validateAll(built)
-    setRows(validated)
-    setOverrides({})
-    setStep(3)
-  }, [meta, tactics])
-
-  const handleOverride = useCallback((rowIndex: number, field: StringField, value: string) => {
-    setOverrides((prev) => ({
-      ...prev,
-      [rowIndex]: { ...prev[rowIndex], [field]: value },
-    }))
-  }, [])
-
-  const goToStep = (target: number) => {
-    if (target <= step) setStep(target)
-  }
-
-  // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
       <header className="border-b border-gray-200 px-6 py-4">
-        <h1 className="text-xl font-semibold text-gray-900">MSD CTT Taxonomy Generator</h1>
+        <h1 className="text-xl font-semibold text-gray-900">CTT Traffic Sheet Generator</h1>
       </header>
 
-      {/* Step indicator */}
-      <nav className="border-b border-gray-100 bg-gray-50 px-6 py-3">
-        <div className="mx-auto flex max-w-5xl items-center gap-1">
-          {STEPS.map((label, i) => (
-            <div key={i} className="flex items-center">
-              {i > 0 && (
-                <div className={`mx-1 h-px w-8 ${i <= step ? 'bg-blue-300' : 'bg-gray-200'}`} />
-              )}
-              <button
-                onClick={() => goToStep(i)}
-                disabled={i > step}
-                className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                  i === step
-                    ? 'bg-blue-600 text-white'
-                    : i < step
-                      ? 'cursor-pointer bg-blue-100 text-blue-700 hover:bg-blue-200'
-                      : 'cursor-not-allowed bg-gray-100 text-gray-400'
-                }`}
-              >
-                <span
-                  className={`flex h-5 w-5 items-center justify-center rounded-full border text-[10px] ${
-                    i === step
-                      ? 'border-white/30'
-                      : i < step
-                        ? 'border-blue-300'
-                        : 'border-gray-300'
-                  }`}
-                >
-                  {i < step ? '✓' : i + 1}
-                </span>
-                {label}
-              </button>
-            </div>
-          ))}
-        </div>
-      </nav>
-
-      {/* Content */}
-      <main className="mx-auto max-w-5xl px-6 py-8">
-        <div className="mb-6">
-          <p className="mb-1 text-sm text-gray-500">
-            Step {step + 1} of {STEPS.length}
-          </p>
-          <h2 className="text-lg font-semibold text-gray-900">{STEPS[step]}</h2>
-        </div>
-
-        {step === 0 && (
+      <main className="mx-auto max-w-2xl px-6 py-8">
+        {(state === 'upload' || state === 'processing') && (
           <div className="space-y-4">
+            <p className="text-sm text-gray-500">
+              Upload a blocking chart (.xlsx) to generate a formula-based traffic sheet.
+            </p>
             <FileUploader
               onFileUploaded={handleUpload}
               isLoading={isLoading}
               error={uploadError}
-              fileName={fileName}
+              fileName={null}
             />
-            {warnings.length > 0 && !uploadError && (
-              <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-700">
-                <p className="mb-1 font-medium">Warnings:</p>
-                <ul className="list-inside list-disc space-y-1">
-                  {warnings.map((w, i) => (
-                    <li key={i}>{w}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         )}
 
-        {step === 1 && <CampaignForm initialMeta={parsedMeta} onSubmit={handleFormSubmit} />}
-
-        {step === 2 && meta && (
-          <TacticReview
-            tactics={tactics}
+        {state === 'result' && (
+          <ResultSummary
             product={meta.product}
-            onUpdate={setTactics}
-            onGenerate={handleGenerate}
+            campaignName={meta.campaignName}
+            socialCount={rows.filter((r) => r.channel === 'SOC').length}
+            digitalCount={rows.filter((r) => r.channel === 'DISP').length}
+            searchCount={rows.filter((r) => r.channel === 'search').length}
+            yellowCellCount={yellowCount}
+            warnings={warnings}
+            onDownload={handleDownload}
+            onReset={handleReset}
           />
         )}
-
-        {step === 3 && (
-          <div className="space-y-6">
-            <TaxonomyPreview rows={rows} overrides={overrides} onOverride={handleOverride} />
-            <div className="flex justify-end">
-              <button
-                onClick={() => setStep(4)}
-                className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-              >
-                Continue to Download
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 4 && meta && <DownloadPanel meta={meta} rows={rows} />}
       </main>
     </div>
   )
