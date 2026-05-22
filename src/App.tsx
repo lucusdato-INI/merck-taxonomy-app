@@ -63,27 +63,24 @@ function App() {
     }
   }, [])
 
-  const handleFormSubmit = useCallback(
-    (m: CampaignMeta) => {
-      setMeta(m)
+  const handleFormSubmit = useCallback((m: CampaignMeta) => {
+    setMeta(m)
 
-      const config = PRODUCTS[m.product]
-      const personaNames =
-        config.personas.type === 'paired'
-          ? Object.values(config.personas.pairs).map((p) => p.pair_name)
-          : Object.keys(config.personas.named)
+    const config = PRODUCTS[m.product]
+    const personaNames =
+      config.personas.type === 'paired'
+        ? Object.values(config.personas.pairs).map((p) => p.pair_name)
+        : Object.keys(config.personas.named)
 
-      setTactics((prev) =>
-        prev.map((t) => ({
-          ...t,
-          personas: t.personas.length > 0 ? t.personas : [...personaNames],
-        })),
-      )
+    setTactics((prev) =>
+      prev.map((t) => ({
+        ...t,
+        personas: t.personas.length > 0 ? t.personas : [...personaNames],
+      })),
+    )
 
-      setStep(2)
-    },
-    [],
-  )
+    setStep(2)
+  }, [])
 
   const handleGenerate = useCallback(() => {
     if (!meta) return
@@ -121,9 +118,7 @@ function App() {
           {STEPS.map((label, i) => (
             <div key={i} className="flex items-center">
               {i > 0 && (
-                <div
-                  className={`mx-1 h-px w-8 ${i <= step ? 'bg-blue-300' : 'bg-gray-200'}`}
-                />
+                <div className={`mx-1 h-px w-8 ${i <= step ? 'bg-blue-300' : 'bg-gray-200'}`} />
               )}
               <button
                 onClick={() => goToStep(i)}

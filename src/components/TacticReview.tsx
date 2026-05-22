@@ -110,7 +110,8 @@ export default function TacticReview({
 
   const expandAll = () => setExpandedIds(new Set(tactics.map((t) => t.id)))
   const collapseAll = () => setExpandedIds(new Set())
-  const selectAll = () => onUpdate(tactics.map((t) => ({ ...t, included: t.platformKey ? true : t.included })))
+  const selectAll = () =>
+    onUpdate(tactics.map((t) => ({ ...t, included: t.platformKey ? true : t.included })))
   const deselectUnrecognized = () =>
     onUpdate(tactics.map((t) => ({ ...t, included: t.platformKey ? t.included : false })))
 
@@ -285,7 +286,10 @@ export default function TacticReview({
                     </Field>
 
                     <Field label="Targeting">
-                      <p className="truncate px-1 py-1.5 text-sm text-gray-500" title={t.targetingDescription}>
+                      <p
+                        className="truncate px-1 py-1.5 text-sm text-gray-500"
+                        title={t.targetingDescription}
+                      >
                         {t.targetingDescription || '—'}
                       </p>
                     </Field>
@@ -373,9 +377,7 @@ export default function TacticReview({
                           }
                           className="field-select w-full text-left"
                         >
-                          {t.personas.length > 0
-                            ? `${t.personas.length} selected`
-                            : 'Select…'}
+                          {t.personas.length > 0 ? `${t.personas.length} selected` : 'Select…'}
                         </button>
                         {openDropdown === `persona-${t.id}` && (
                           <DropdownPanel>
@@ -398,9 +400,7 @@ export default function TacticReview({
                         <button
                           type="button"
                           onClick={() =>
-                            setOpenDropdown(
-                              openDropdown === `dim-${t.id}` ? null : `dim-${t.id}`,
-                            )
+                            setOpenDropdown(openDropdown === `dim-${t.id}` ? null : `dim-${t.id}`)
                           }
                           className="field-select w-full text-left"
                         >
@@ -450,18 +450,14 @@ export default function TacticReview({
                         <input
                           type="checkbox"
                           checked={t.isInfluencer}
-                          onChange={(e) =>
-                            updateTactic(t.id, { isInfluencer: e.target.checked })
-                          }
+                          onChange={(e) => updateTactic(t.id, { isInfluencer: e.target.checked })}
                           className="rounded border-gray-300"
                         />
                         {t.isInfluencer && (
                           <input
                             type="text"
                             value={t.influencerName}
-                            onChange={(e) =>
-                              updateTactic(t.id, { influencerName: e.target.value })
-                            }
+                            onChange={(e) => updateTactic(t.id, { influencerName: e.target.value })}
                             placeholder="Name"
                             className="field-input flex-1"
                           />
@@ -542,7 +538,12 @@ function CheckboxItem({
 }) {
   return (
     <label className="flex cursor-pointer items-center gap-2 px-3 py-1 text-sm hover:bg-gray-50">
-      <input type="checkbox" checked={checked} onChange={onChange} className="rounded border-gray-300" />
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="rounded border-gray-300"
+      />
       <span className="truncate">{label}</span>
     </label>
   )

@@ -58,9 +58,7 @@ export default function DownloadPanel({ meta, rows }: DownloadPanelProps) {
           ) : (
             <span className="font-medium text-green-600">No validation errors</span>
           )}
-          {warningCount > 0 && (
-            <span className="text-amber-600">{warningCount} warnings</span>
-          )}
+          {warningCount > 0 && <span className="text-amber-600">{warningCount} warnings</span>}
         </div>
       </div>
 

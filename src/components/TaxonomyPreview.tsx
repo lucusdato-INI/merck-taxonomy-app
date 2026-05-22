@@ -161,11 +161,7 @@ export default function TaxonomyPreview({ rows, overrides, onOverride }: Taxonom
                             }}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') {
-                                onOverride(
-                                  globalIdx,
-                                  f.field,
-                                  (e.target as HTMLInputElement).value,
-                                )
+                                onOverride(globalIdx, f.field, (e.target as HTMLInputElement).value)
                                 setEditingCell(null)
                               }
                               if (e.key === 'Escape') setEditingCell(null)
@@ -182,13 +178,9 @@ export default function TaxonomyPreview({ rows, overrides, onOverride }: Taxonom
                             )}
                             <span
                               className={`cursor-pointer truncate font-mono text-xs hover:text-blue-600 ${
-                                !value || value === 'TBD'
-                                  ? 'italic text-gray-400'
-                                  : 'text-gray-900'
+                                !value || value === 'TBD' ? 'italic text-gray-400' : 'text-gray-900'
                               }`}
-                              onClick={() =>
-                                value && copyToClipboard(value, cellKey)
-                              }
+                              onClick={() => value && copyToClipboard(value, cellKey)}
                               onDoubleClick={() =>
                                 setEditingCell({ idx: globalIdx, field: f.field })
                               }
