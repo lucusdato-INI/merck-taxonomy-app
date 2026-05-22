@@ -95,7 +95,7 @@ export interface ParsedTactic {
 export interface CampaignMeta {
   product: ProductKey
   campaignName: string
-  campaignType: CampaignTypeKey
+  campaignType: CampaignTypeKey | ''
   objective: ObjectiveKey | ''
   yearMonth: string
   audience: AudienceCode

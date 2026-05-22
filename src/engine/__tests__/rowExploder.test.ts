@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { explodeRows } from '../rowExploder'
-import type { ParsedTactic, CellValue } from '../types'
+import type { ParsedTactic } from '../types'
 
 function makeTactic(overrides: Partial<ParsedTactic> = {}): ParsedTactic {
   return {

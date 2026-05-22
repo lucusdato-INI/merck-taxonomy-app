@@ -2,8 +2,10 @@ export type {
   ProductKey,
   CampaignMeta,
   ParsedTactic,
-  TaxonomyRow,
-  ValidationResult,
+  ExplodedRow,
+  CellValue,
+  Confidence,
+  GenerationResult,
   PlatformMapping,
 } from './types'
 
@@ -11,33 +13,19 @@ export {
   PRODUCTS,
   PLATFORM_MAPPINGS,
   SKIPPED_PLATFORMS,
-  CAMPAIGN_TYPE_MAP,
-  OBJECTIVE_MAP,
-  CONTENT_PURPOSE_MAP,
-  AD_FORMAT_MAP,
-  MATCH_TYPE_MAP,
-  GENDER_MAP,
-  GEO_MAP,
-  PROVINCES,
-  AGE_DEMOS,
-  BUY_TYPES,
-  PLACEMENTS,
-  TACTIC_TYPES,
-  AD_DIMENSIONS,
-  LANGUAGES,
-  SOCIAL_SOURCES,
   matchPlatform,
   isSkippedPlatform,
   normalizeDimension,
   inferAdFormat,
   mapKpiToObjective,
+  detectProduct,
 } from './config'
 
 export { parseBlockingChart } from './bcParser'
 export type { BCParseResult } from './bcParser'
 
-export { buildTaxonomy } from './taxonomyBuilder'
+export { explodeRows, countYellowCells } from './rowExploder'
 
-export { validateAll, validateRow, VALIDATION_RULE_DESCRIPTIONS } from './validator'
+export { generateFormulaSheet } from './formulaSheetWriter'
 
-export { generateTrafficSheet } from './trafficSheetWriter'
+export { toAcronym, toFullName, getValidValues } from './cttMappings'
